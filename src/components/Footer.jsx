@@ -90,7 +90,7 @@ export default function Footer() {
                   href="tel:+918742955535"
                   className="flex items-center gap-2 text-amp-slate hover:text-amp-primary font-medium transition-colors"
                 >
-                  <Phone size={13} className="text-amp-accent flex-shrink-0" />
+                  <Phone size={13} className="text-amp-primary flex-shrink-0" />
                   <span>+91 87429 55535</span>
                 </a>
               </li>
@@ -99,12 +99,12 @@ export default function Footer() {
                   href="mailto:marketing@amp-india.com"
                   className="flex items-center gap-2 text-amp-slate hover:text-amp-primary font-medium transition-colors"
                 >
-                  <Mail size={13} className="text-amp-accent flex-shrink-0" />
+                  <Mail size={13} className="text-amp-primary flex-shrink-0" />
                   <span>marketing@amp-india.com</span>
                 </a>
               </li>
               <li className="flex items-start gap-2 text-amp-slate font-medium">
-                <MapPin size={13} className="text-amp-accent flex-shrink-0 mt-0.5" />
+                <MapPin size={13} className="text-amp-primary flex-shrink-0 mt-0.5" />
                 <span className="leading-relaxed">38, Km Stone, NH-8, Khandsa Rd, Gurugram, Haryana 122004, India</span>
               </li>
             </ul>

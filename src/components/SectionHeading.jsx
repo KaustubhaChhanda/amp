@@ -4,6 +4,8 @@ import { useInView } from 'react-intersection-observer';
 export default function SectionHeading({ title, subtitle, light = false, className = '' }) {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.2 });
 
+  const isLeft = className.includes('text-left') || className.includes('!text-left');
+
   return (
     <motion.div
       ref={ref}
@@ -21,17 +23,18 @@ export default function SectionHeading({ title, subtitle, light = false, classNa
       </h2>
       {subtitle && (
         <p
-          className={`mt-4 text-base md:text-lg max-w-2xl mx-auto leading-relaxed ${
+          className={`mt-4 text-base md:text-lg max-w-2xl leading-relaxed ${
+            isLeft ? 'mx-0' : 'mx-auto'
+          } ${
             light ? 'text-white/90 font-medium' : 'text-amp-slate font-medium'
           }`}
         >
           {subtitle}
         </p>
       )}
-      <div className="mt-6 flex items-center justify-center gap-2">
-        <div className={`w-12 h-0.5 bg-gradient-to-r from-transparent ${light ? 'to-white/30' : 'to-amp-accent/30'}`} />
-        <div className={`w-2 h-2 rotate-45 ${light ? 'bg-white' : 'bg-amp-accent'}`} />
-        <div className={`w-12 h-0.5 bg-gradient-to-l from-transparent ${light ? 'to-white/30' : 'to-amp-accent/30'}`} />
+      <div className={`mt-4 flex items-center gap-1.5 ${isLeft ? 'justify-start' : 'justify-center'}`}>
+        <div className={`w-8 h-1 rounded-full ${light ? 'bg-amp-accent-lime' : 'bg-amp-primary'}`} />
+        <div className={`w-2 h-1 rounded-full ${light ? 'bg-white/40' : 'bg-slate-300'}`} />
       </div>
     </motion.div>
   );
