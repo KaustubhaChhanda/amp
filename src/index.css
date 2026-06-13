@@ -1,38 +1,98 @@
 @import "tailwindcss";
 
 @theme {
-  /* Brand Colors */
-  --color-amp-primary: #105485;
-  --color-amp-secondary: #1a7aa6;
-  --color-amp-accent: #C11E21;
-  --color-amp-accent-dark: #a7171d;
-  --color-amp-accent-light: #ff4d4d;
-  --color-amp-accent-lime: #dffe00;
-  --color-amp-accent-lime-hover: #cbe800;
-  --color-amp-dark: #0a1628;
-  --color-amp-dark-bg: #090d16;
-  --color-amp-charcoal: #1a1f2e;
-  --color-amp-slate: #2d3748;
-  --color-amp-navy: #005186;
-  --color-amp-light: #f7f8fa;
-  --color-amp-muted: #6b7280;
-  --color-amp-border: #e5e7eb;
+  /* Brand Colors - Premium light mode monochrome theme with dark structures (80% Light, 20% Dark) */
+  --color-amp-primary: #0f172a;         /* Matte Black (slate-900) */
+  --color-amp-secondary: #475569;       /* Slate Dark Gray (slate-600) */
+  --color-amp-accent: #000000;          /* True Black */
+  --color-amp-accent-dark: #0f172a;
+  --color-amp-accent-light: #f1f5f9;    /* Light steel grey highlight */
+  --color-amp-accent-lime: #000000;     /* fallback mapping */
+  --color-amp-accent-lime-hover: #1e293b;
+  --color-amp-dark: #0f172a;            /* Dark structural blocks */
+  --color-amp-dark-bg: #ffffff;         /* Main White background */
+  --color-amp-charcoal: #f8fafc;        /* Off-white */
+  --color-amp-slate: #475569;           /* Charcoal Gray text for general body copy */
+  --color-amp-navy: #f1f5f9;            /* Light gray blocks */
+  --color-amp-light: #f8fafc;           /* Main light section background */
+  --color-amp-muted: #64748b;           /* Muted Gray text */
+  --color-amp-border: #cbd5e1;          /* Clean Slate light border */
 
-  /* Font */
-  --font-sans: 'Montserrat', sans-serif;
+  /* Font Scale Up overrides */
+  --font-size-xs: 0.875rem;             /* 14px instead of 12px */
+  --font-size-sm: 1rem;                 /* 16px instead of 14px */
+  --font-size-base: 1.125rem;           /* 18px instead of 16px */
+  --font-size-lg: 1.25rem;              /* 20px instead of 18px */
+  --font-size-xl: 1.5rem;               /* 24px instead of 20px */
+  --font-size-2xl: 1.875rem;            /* 30px instead of 24px */
+  --font-size-3xl: 2.25rem;             /* 36px instead of 30px */
+  --font-size-4xl: 3rem;                /* 48px instead of 36px */
+  --font-size-5xl: 3.75rem;             /* 60px instead of 48px */
+
+  --font-sans: 'Plus Jakarta Sans', sans-serif;
 }
 
 /* Base styles */
-html {
-  scroll-behavior: smooth;
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    background-color: #ffffff;            /* Premium Light White */
+  }
+
+  body {
+    font-family: var(--font-sans);
+    color: #1e293b;                       /* Premium slate-800 text (deep charcoal/dark, very readable) */
+    background-color: #ffffff;            /* Premium Light White */
+    font-weight: 650;                     /* Globally bolder, clearer base text */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Base typography elements font weights */
+  p, span, label, input, textarea, select {
+    font-weight: 650;                     /* Bolder font style */
+  }
+
+  a {
+    font-weight: 750;                     /* Extra bold links */
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-sans);
+    font-weight: 900;                     /* Black weight headers for punchy visibility */
+    letter-spacing: -0.025em;
+    color: #0f172a;                       /* Slate-900 (matte black) headings */
+  }
+
+  /* Ensure headings inside dark blocks default to high contrast white */
+  .satin-card-dark h1,
+  .satin-card-dark h2,
+  .satin-card-dark h3,
+  .satin-card-dark h4,
+  .satin-card-dark h5,
+  .satin-card-dark h6,
+  .bg-slate-950 h1,
+  .bg-slate-950 h2,
+  .bg-slate-950 h3,
+  .bg-slate-950 h4,
+  .bg-slate-950 h5,
+  .bg-slate-950 h6,
+  [class*="bg-slate-950"] h1,
+  [class*="bg-slate-950"] h2,
+  [class*="bg-slate-950"] h3,
+  [class*="bg-slate-950"] h4,
+  [class*="bg-slate-950"] h5,
+  [class*="bg-slate-950"] h6,
+  footer h1,
+  footer h2,
+  footer h3,
+  footer h4,
+  footer h5,
+  footer h6 {
+    color: #ffffff;
+  }
 }
 
-body {
-  font-family: var(--font-sans);
-  color: #1a1f2e;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
 
 /* Scrollbar styling */
 ::-webkit-scrollbar {
@@ -40,57 +100,139 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #0a1628;
+  background: #f8fafc;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #105485;
+  background: #cbd5e1;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #1a7aa6;
+  background: #0f172a;
 }
 
 /* Selection styling */
 ::selection {
-  background-color: rgba(16, 84, 133, 0.3);
-  color: #0a1628;
+  background-color: rgba(15, 23, 42, 0.1);
+  color: #000000;
 }
 
-/* ── World-Class UI/UX Redesign Utilities ── */
-
-/* Deep radial mesh background blending navy-blue and neon-lime highlights */
-.bg-mesh-dark {
-  background-color: #090d16;
+/* ── Minimalist Dark Grid Overlay ── */
+.bg-grid-minimal {
+  background-size: 56px 56px;
   background-image: 
-    radial-gradient(at 0% 0%, rgba(16, 84, 133, 0.18) 0px, transparent 55%),
-    radial-gradient(at 100% 100%, rgba(223, 254, 0, 0.06) 0px, transparent 50%),
-    radial-gradient(at 50% 0%, rgba(26, 122, 166, 0.1) 0px, transparent 50%);
+    linear-gradient(to right, rgba(15, 23, 42, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(15, 23, 42, 0.03) 1px, transparent 1px);
 }
 
-/* Mouse-tracking spot light hover highlight */
-.spotlight-card {
-  position: relative;
+.bg-grid-minimal-dark {
+  background-size: 56px 56px;
+  background-image: 
+    linear-gradient(to right, rgba(15, 23, 42, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(15, 23, 42, 0.04) 1px, transparent 1px);
 }
 
-.spotlight-card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    400px circle at var(--mouse-x, 0px) var(--mouse-y, 0px),
-    rgba(223, 254, 0, 0.08),
-    transparent 80%
-  );
-  z-index: 1;
-  pointer-events: none;
-  transition: opacity 0.4s ease;
-  opacity: 0;
+/* ── Custom UI Components Layer ── */
+@layer components {
+  /* Elevated Bento Cards (Light Premium Sheets) */
+  .satin-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(15, 23, 42, 0.06);
+    box-shadow: 
+      0 10px 30px -10px rgba(0, 0, 0, 0.05), 
+      0 1px 3px rgba(0, 0, 0, 0.02);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    color: #1e293b;
+  }
+
+  .satin-card:hover {
+    border-color: rgba(15, 23, 42, 0.15);
+    box-shadow: 
+      0 20px 45px -12px rgba(0, 0, 0, 0.08), 
+      0 1px 4px rgba(0, 0, 0, 0.02);
+    transform: translateY(-4px) scale(1.01);
+  }
+
+  /* 20% Dark Contrast card element style */
+  .satin-card-dark {
+    background: rgba(15, 23, 42, 0.95);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 
+      0 15px 35px -10px rgba(0, 0, 0, 0.15), 
+      0 1px 3px rgba(0, 0, 0, 0.05);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    color: #ffffff;
+  }
+
+  .satin-card-dark:hover {
+    border-color: rgba(255, 255, 255, 0.18);
+    box-shadow: 
+      0 24px 50px -15px rgba(0, 0, 0, 0.25), 
+      0 1px 4px rgba(0, 0, 0, 0.05);
+    transform: translateY(-4px) scale(1.01);
+  }
+
+  /* Translucent Glass Dock for Navbar */
+  .glass-dock {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
+  }
+
+  /* Premium Tactile Hover Transitions for Buttons */
+  .btn-hover {
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  
+  .btn-hover:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
+  }
+  
+  .btn-hover:active {
+    transform: translateY(0px) scale(0.98);
+  }
+
+  /* Ambient Studio Lighting Glow Spots */
+  .glow-indigo {
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.07) 0%, transparent 70%);
+  }
+
+  .glow-amber {
+    background: radial-gradient(circle, rgba(245, 158, 11, 0.05) 0%, transparent 70%);
+  }
 }
 
-.spotlight-card:hover::before {
-  opacity: 1;
+/* ── Studio Ambient Lights ── */
+@keyframes ambient-glow {
+  0% { transform: translate(0px, 0px) scale(1); }
+  33% { transform: translate(30px, -30px) scale(1.05); }
+  66% { transform: translate(-20px, 20px) scale(0.95); }
+  100% { transform: translate(0px, 0px) scale(1); }
+}
+
+.animate-ambient-glow {
+  animation: ambient-glow 15s ease-in-out infinite;
+}
+
+/* ── Typography Gradients ── */
+.text-gradient-copper {
+  background: linear-gradient(135deg, #000000 0%, #475569 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-amber {
+  background: linear-gradient(135deg, #1e293b 0%, #64748b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 /* Infinite scroller marquee animation */
@@ -110,11 +252,3 @@ body {
 .animate-marquee-scroll:hover {
   animation-play-state: paused;
 }
-
-/* Custom premium color text gradients */
-.text-gradient-lime {
-  background: linear-gradient(135deg, #dffe00 0%, #a8f500 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-

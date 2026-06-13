@@ -32,10 +32,6 @@ export default function SectionHeading({ title, subtitle, light = false, classNa
           {subtitle}
         </p>
       )}
-      <div className={`mt-4 flex items-center gap-1.5 ${isLeft ? 'justify-start' : 'justify-center'}`}>
-        <div className={`w-8 h-1 rounded-full ${light ? 'bg-amp-accent-lime' : 'bg-amp-primary'}`} />
-        <div className={`w-2 h-1 rounded-full ${light ? 'bg-white/40' : 'bg-slate-300'}`} />
-      </div>
     </motion.div>
   );
 }

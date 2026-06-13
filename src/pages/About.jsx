@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import {
   Target,
-  Shield,
+  Eye,
   Cog,
   Award,
   FlaskConical,
@@ -18,9 +18,9 @@ function FadeIn({ children, delay = 0, className = '' }) {
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 40 }}
+      initial={{ opacity: 0, y: 20 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.6, delay }}
+      transition={{ duration: 0.5, delay }}
       className={className}
     >
       {children}
@@ -38,13 +38,13 @@ function AnimatedCounter({ value }) {
 
   useEffect(() => {
     if (!inView || targetNumber === 0) return;
-    const duration = 1500;
+    const duration = 1200;
     const startTime = performance.now();
 
     function updateCount(currentTime) {
       const elapsed = currentTime - startTime;
       const progress = Math.min(elapsed / duration, 1);
-      const easeProgress = 1 - Math.pow(1 - progress, 3); // Ease out cubic
+      const easeProgress = 1 - Math.pow(1 - progress, 3);
       setCount(Math.floor(easeProgress * targetNumber));
 
       if (progress < 1) {
@@ -63,161 +63,153 @@ function AnimatedCounter({ value }) {
 }
 
 const capabilities = [
-  { icon: Factory, title: 'Manufacturing', desc: 'Fully computerized processes with eleven tank phosphating plant and advanced rubber molding.' },
-  { icon: Cog, title: 'Engineering', desc: 'Pro E, Autodesk Product Design Suite with 3D modelling of parts, mold and jigs since 2014.' },
-  { icon: FlaskConical, title: 'R&D', desc: 'Fully equipped lab with sophisticated testing equipment focused on enhanced customer satisfaction.' },
-  { icon: Ruler, title: 'Tool Making', desc: 'State-of-the-art tool making facilities for rapid prototyping and production tooling.' },
-  { icon: CheckCircle2, title: 'Quality Control', desc: 'Respond promptly to changing customer needs with new products at minimum lead time.' },
-  { icon: Award, title: 'Testing', desc: 'Industry-leading testing capabilities ensuring high performance and reliability of every component.' },
+  { icon: Factory, title: 'Manufacturing', desc: 'Fully computerized molding processes featuring an advanced eleven-tank chemical phosphating plant.' },
+  { icon: Cog, title: 'CAD Engineering', desc: 'Autodesk suite integration enabling custom 3D modeling of molds, fixtures, and jigs.' },
+  { icon: FlaskConical, title: 'R&D Laboratory', desc: 'In-house testing facility focused on compound fatigue limits and shear stress evaluation.' },
+  { icon: Ruler, title: 'CNC Tooling', desc: 'Advanced CNC machine center supporting custom mold prototyping within a 14-day cycle.' },
+  { icon: CheckCircle2, title: 'Quality Audits', desc: 'Compliance checking at all material supply stages to maintain zero-defect standards.' },
+  { icon: Award, title: 'Material Testing', desc: 'Dynamic load machines simulating high-stress environments for suspension components.' },
 ];
 
 const certifications = [
-  { name: 'IATF 16949:2016', image: '/images/misc/certifiacate4.jpg', desc: 'International automotive quality management standard.' },
-  { name: 'ISO 14001:2004', image: '/images/misc/certifiacate3.jpg', desc: 'Environmental management system certification.' },
-  { name: 'OHSAS 18001:2007', image: '/images/misc/certifiacate1.jpg', desc: 'Occupational health and safety management.' },
+  { name: 'IATF 16949:2016', image: '/images/misc/certifiacate4.jpg', desc: 'International quality compliance standard for automotive supply lists.' },
+  { name: 'ISO 14001:2004', image: '/images/misc/certifiacate3.jpg', desc: 'Environmental safety management certificate.' },
+  { name: 'OHSAS 18001:2007', image: '/images/misc/certifiacate1.jpg', desc: 'Occupational health and employee safety standard.' },
 ];
 
 export default function About() {
-  const handleMouseMove = (e) => {
-    const { currentTarget, clientX, clientY } = e;
-    const rect = currentTarget.getBoundingClientRect();
-    const x = clientX - rect.left;
-    const y = clientY - rect.top;
-    currentTarget.style.setProperty('--mouse-x', `${x}px`);
-    currentTarget.style.setProperty('--mouse-y', `${y}px`);
-  };
-
   return (
     <>
       {/* Hero */}
       <section 
-        onMouseMove={handleMouseMove}
-        className="relative pt-32 pb-20 bg-mesh-dark spotlight-card border-b border-white/5" 
+        className="relative pt-32 pb-20 bg-white text-slate-900 bg-grid-minimal border-b border-slate-200/60" 
         id="about-hero"
       >
-        <div className="absolute inset-0 bg-[url('/images/facility/8hbanner_anand_banner.png')] bg-cover bg-center opacity-15 pointer-events-none" />
+        <div className="absolute inset-0 bg-[url('/images/facility/8hbanner_anand_banner.png')] bg-cover bg-center opacity-5 pointer-events-none" />
+        
+        {/* Ambient Top Glow (Subtle) */}
+        <div className="absolute top-0 right-10 w-96 h-40 bg-slate-900/5 rounded-full blur-3xl pointer-events-none" />
+
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center z-10">
+          <span className="inline-block px-3 py-1 bg-slate-100 text-slate-500 text-xs font-bold tracking-widest uppercase rounded border border-slate-200 mb-4">
+            TIER-1 CORE PRINCIPLES
+          </span>
           <motion.h1
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-4xl md:text-5xl font-extrabold text-white"
+            transition={{ duration: 0.5 }}
+            className="text-4xl md:text-5xl font-extrabold text-slate-900 font-sans tracking-tight"
           >
-            About Us
+            About Our Company
           </motion.h1>
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="mt-4 text-lg text-white/90 font-medium max-w-2xl mx-auto"
+            transition={{ duration: 0.5, delay: 0.15 }}
+            className="mt-4 text-base text-slate-600 font-medium max-w-xl mx-auto leading-relaxed"
           >
-            A legacy of engineering excellence in automotive component manufacturing since 1978.
+            A legacy of precision anti-vibration component manufacturing since 1949.
           </motion.p>
-          <div className="mt-6 flex items-center justify-center gap-1.5">
-            <div className="w-8 h-1 rounded-full bg-amp-accent-lime" />
-            <div className="w-2 h-1 rounded-full bg-white/40" />
-          </div>
         </div>
       </section>
 
-      {/* Company Introduction */}
-      <section className="py-20 bg-white" id="company-intro">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Company Introduction (20% Dark Contrast Section) */}
+      <section className="py-20 bg-slate-950 bg-grid-minimal-dark relative text-white" id="company-intro">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            
+            {/* Left Column Image with Tech frame */}
             <FadeIn>
-              <div className="overflow-hidden rounded-3xl border border-slate-100 shadow-sm">
-                <img
-                  src="/images/facility/eng.jpg"
-                  alt="AMP Engineering Facility"
-                  className="w-full h-auto object-cover hover:scale-102 transition-transform duration-500"
-                  loading="lazy"
-                />
+              <div className="overflow-hidden rounded-3xl border border-white/5 p-2 bg-slate-900/40 shadow-xl">
+                <div className="rounded-2xl overflow-hidden">
+                  <img
+                    src="/images/facility/eng.jpg"
+                    alt="AMP Engineering Facility"
+                    className="w-full h-auto object-cover opacity-90"
+                    loading="lazy"
+                  />
+                </div>
               </div>
             </FadeIn>
-            <FadeIn delay={0.2}>
+
+            {/* Right Column Text + Metrics */}
+            <FadeIn delay={0.15}>
               <div>
-                <span className="inline-block px-3 py-1 bg-amp-primary/10 text-amp-primary text-xs font-semibold uppercase tracking-widest mb-4 rounded-full">
-                  Our Story
+                <span className="inline-flex items-center gap-1 text-xs font-bold uppercase tracking-widest bg-white/5 text-slate-300 border border-white/5 px-3 py-1 rounded mb-4">
+                  COMPANY PROFILE
                 </span>
-                <h2 className="text-3xl md:text-4xl font-extrabold text-amp-dark leading-tight">
-                  India's Leading NVH Component Supplier
+                <h2 className="text-2xl md:text-3xl font-extrabold text-white leading-tight font-sans">
+                  India's Premier Antivibration Supplier
                 </h2>
-                <p className="mt-4 text-amp-slate font-medium leading-relaxed text-sm">
-                  AMP is India's leading supplier of Antivibration Rubber-to-Metal Bonded
-                  components for the global automotive industry. Our components are used
-                  across the globe on all platforms including Passenger Cars, Trucks,
-                  Trailers and Off-Highway Vehicles.
+                <p className="mt-4 text-slate-300 font-medium leading-relaxed text-xs md:text-sm">
+                  Anand Motor Products (AMP) is India's leading designer and exporter of high-end anti-vibration components. Our custom suspension bushings, powertrain mountings, and MCU jounce bumpers are fitted inside heavy commercial trucks, trailers, and passenger cars worldwide.
                 </p>
-                <p className="mt-4 text-amp-slate font-medium leading-relaxed text-sm">
-                  With more than 700+ professionals employed at 3 State-of-the-Art
-                  manufacturing facilities, AMP exceeds the expectations of its customers.
-                  Over the past decades, Anand Motor Products has grown to be the leading
-                  NVH component supplier to all major OEMs in India and across the globe.
-                </p>
-                <p className="mt-4 text-amp-slate font-medium leading-relaxed text-sm">
-                  Our commitment to innovation is reflected in every component that we
-                  manufacture. We constantly incorporate cutting-edge technologies and
-                  processes to deliver nothing but the best for our clientele.
+                <p className="mt-3 text-slate-400 font-medium leading-relaxed text-xs md:text-sm">
+                  Employing over 700 technical professionals across 3 state-of-the-art manufacturing plants, we support leading Tier-1 vehicle manufacturers with complete compound configuration and custom tooling design.
                 </p>
 
-                {/* Counter row */}
-                <div className="mt-8 grid grid-cols-3 gap-4 border-t border-slate-100 pt-6">
-                  <div>
-                    <div className="text-3xl font-extrabold text-amp-primary">
-                      <AnimatedCounter value="45+" />
+                {/* Dashboard Metrics */}
+                <div className="mt-8 grid grid-cols-3 gap-3">
+                  <div className="satin-card-dark p-4 text-center border border-white/5 bg-white/5">
+                    <span className="text-xs text-slate-300 block uppercase font-semibold">Legacy</span>
+                    <div className="text-2xl font-extrabold text-white mt-1">
+                      <AnimatedCounter value="75+" />
                     </div>
-                    <div className="text-[10px] text-slate-500 font-extrabold uppercase tracking-wider mt-1">Years Legacy</div>
+                    <span className="text-xs text-slate-350 font-bold uppercase tracking-wider block mt-1">Years</span>
                   </div>
-                  <div>
-                    <div className="text-3xl font-extrabold text-amp-primary">
+                  <div className="satin-card-dark p-4 text-center border border-white/5 bg-white/5">
+                    <span className="text-xs text-slate-300 block uppercase font-semibold">Facilities</span>
+                    <div className="text-2xl font-extrabold text-white mt-1">
                       <AnimatedCounter value="3" />
                     </div>
-                    <div className="text-[10px] text-slate-500 font-extrabold uppercase tracking-wider mt-1">Modern Plants</div>
+                    <span className="text-xs text-slate-350 font-bold uppercase tracking-wider block mt-1">Plants</span>
                   </div>
-                  <div>
-                    <div className="text-3xl font-extrabold text-amp-primary">
+                  <div className="satin-card-dark p-4 text-center border border-white/5 bg-white/5">
+                    <span className="text-xs text-slate-300 block uppercase font-semibold">Professionals</span>
+                    <div className="text-2xl font-extrabold text-white mt-1">
                       <AnimatedCounter value="700+" />
                     </div>
-                    <div className="text-[10px] text-slate-500 font-extrabold uppercase tracking-wider mt-1">Professionals</div>
+                    <span className="text-xs text-slate-350 font-bold uppercase tracking-wider block mt-1">Staff</span>
                   </div>
                 </div>
               </div>
             </FadeIn>
+
           </div>
         </div>
       </section>
 
       {/* Vision & Mission */}
-      <section className="py-20 bg-slate-50" id="vision-mission">
+      <section className="py-20 bg-white bg-grid-minimal relative border-b border-slate-200/60" id="vision-mission">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionHeading title="Our Vision & Mission" />
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <SectionHeading title="Operational Directives" subtitle="Our target vision and mission guidelines." />
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-10">
+            {/* Vision: Translucent Glass Bento (Light) */}
             <FadeIn className="flex flex-col h-full">
-              <div className="bg-white border border-slate-100 p-8 md:p-10 flex-1 flex flex-col justify-between rounded-3xl shadow-md hover:border-amp-primary/20 transition-all duration-300">
+              <div className="satin-card p-8 md:p-10 flex-1 flex flex-col justify-between rounded-3xl border border-slate-200/80 relative overflow-hidden bg-white">
                 <div>
-                  <Shield size={40} className="text-amp-primary mb-5" strokeWidth={1.5} />
-                  <h3 className="text-2xl font-extrabold text-amp-dark mb-4">Our Vision</h3>
-                  <p className="text-amp-slate font-medium leading-relaxed text-sm">
-                    To be the first choice of OEMs worldwide for NVH and rubber-to-metal
-                    automotive components, setting benchmarks in quality, innovation, and
-                    customer satisfaction across the global automotive industry.
+                  <div className="w-10 h-10 rounded-lg bg-slate-100 text-slate-900 border border-slate-200 flex items-center justify-center mb-5">
+                    <Eye size={20} />
+                  </div>
+                  <h3 className="text-xl font-extrabold text-slate-900 mb-3 font-sans">Our Vision</h3>
+                  <p className="text-slate-600 font-medium leading-relaxed text-xs md:text-sm">
+                    To be the preferred global supply source for NVH and rubber-to-metal components, maintaining absolute standards in elastomer life, engineering compliance, and client satisfaction.
                   </p>
                 </div>
               </div>
             </FadeIn>
+
+            {/* Mission: Translucent Dark Tech Glass Bento (Dark Accent) */}
             <FadeIn delay={0.15} className="flex flex-col h-full">
-              <div 
-                onMouseMove={handleMouseMove}
-                className="bg-mesh-dark spotlight-card border border-white/5 p-8 md:p-10 flex-1 flex flex-col justify-between rounded-3xl shadow-xl text-white"
-              >
+              <div className="satin-card-dark p-8 md:p-10 flex-1 flex flex-col justify-between rounded-3xl border border-white/5 text-white relative overflow-hidden">
                 <div>
-                  <Target size={40} className="text-amp-accent-lime mb-5" strokeWidth={1.5} />
-                  <h3 className="text-2xl font-extrabold mb-4">Our Mission</h3>
-                  <p className="text-white/80 font-medium leading-relaxed text-sm">
-                    To respond promptly to the changing needs of customers, develop new
-                    products with minimum lead time, and establish ourselves as a reliable
-                    supplier through continuous improvement, advanced manufacturing processes,
-                    and unwavering commitment to quality.
+                  <div className="w-10 h-10 rounded-lg bg-white/10 text-amp-secondary border border-white/10 flex items-center justify-center mb-5">
+                    <Target size={20} />
+                  </div>
+                  <h3 className="text-xl font-extrabold mb-3 font-sans text-white">Our Mission</h3>
+                  <p className="text-slate-300 font-medium leading-relaxed text-xs md:text-sm">
+                    To respond promptly to changing customer requirements, complete rapid tooling designs inside a 14-day cycle, and ensure zero-defect shipment quality records.
                   </p>
                 </div>
               </div>
@@ -227,24 +219,24 @@ export default function About() {
       </section>
 
       {/* Manufacturing Expertise */}
-      <section className="py-20 bg-white" id="expertise">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-20 bg-slate-50 bg-grid-minimal relative border-b border-slate-200/60" id="expertise">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <SectionHeading
-            title="Manufacturing Expertise"
-            subtitle="We are constantly inspired to incorporate innovation in every facet of our work, delivering nothing but the best for our valuable clientele."
+            title="Operational Competences"
+            subtitle="Providing custom tooling, advanced engineering research, and dynamic fatigue tests."
           />
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
             {capabilities.map((cap, i) => (
-              <FadeIn key={cap.title} delay={i * 0.1} className="flex flex-col h-full">
-                <div 
-                  onMouseMove={handleMouseMove}
-                  className="flex flex-col justify-between flex-1 border border-slate-100 spotlight-card p-6 md:p-8 hover:border-amp-primary/25 hover:shadow-lg transition-all duration-300 group rounded-2xl bg-white shadow-sm"
-                >
+              <FadeIn key={cap.title} delay={i * 0.08} className="flex flex-col h-full">
+                <div className="flex flex-col justify-between flex-1 satin-card p-6 md:p-8 rounded-2xl border border-slate-200/80 bg-white relative overflow-hidden">
                   <div>
-                    <cap.icon size={32} className="text-amp-primary mb-4 group-hover:scale-110 transition-transform" strokeWidth={1.5} />
-                    <h3 className="text-lg font-bold text-amp-dark mb-2">{cap.title}</h3>
+                    <div className="w-8 h-8 rounded bg-slate-100 text-slate-900 border border-slate-200 flex items-center justify-center mb-4">
+                      <cap.icon size={16} />
+                    </div>
+                    <h3 className="text-sm font-bold text-slate-900 mb-2 font-sans">{cap.title}</h3>
                   </div>
-                  <p className="text-sm text-amp-slate font-medium leading-relaxed mt-2">{cap.desc}</p>
+                  <p className="text-xs text-slate-600 font-medium leading-relaxed mt-2">{cap.desc}</p>
                 </div>
               </FadeIn>
             ))}
@@ -253,21 +245,18 @@ export default function About() {
       </section>
 
       {/* Quality & Certifications */}
-      <section className="py-20 bg-slate-50" id="certifications">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-20 bg-white bg-grid-minimal relative" id="certifications">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <SectionHeading
-            title="Quality Commitment"
-            subtitle="Our commitment to quality is backed by internationally recognized certifications, ensuring every component meets the highest standards."
+            title="International Accreditations"
+            subtitle="Every component passes strict testing to comply with international automotive benchmarks."
           />
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10">
             {certifications.map((cert, i) => (
-              <FadeIn key={cert.name} delay={i * 0.15} className="flex flex-col h-full">
-                <div 
-                  onMouseMove={handleMouseMove}
-                  className="flex-1 flex flex-col justify-between bg-white border border-slate-100 spotlight-card hover:border-amp-primary/25 p-8 text-center hover:shadow-lg transition-all duration-300 rounded-2xl shadow-sm"
-                >
+              <FadeIn key={cert.name} delay={i * 0.1} className="flex flex-col h-full">
+                <div className="flex-1 flex flex-col justify-between border border-slate-200/80 p-6 text-center rounded-2xl relative overflow-hidden satin-card bg-white shadow-sm">
                   <div>
-                    <div className="w-20 h-20 mx-auto mb-4 flex items-center justify-center">
+                    <div className="w-16 h-16 mx-auto mb-4 flex items-center justify-center bg-slate-50 border border-slate-100 rounded-xl p-2 shadow-inner">
                       <img
                         src={cert.image}
                         alt={cert.name}
@@ -275,20 +264,21 @@ export default function About() {
                         loading="lazy"
                       />
                     </div>
-                    <h3 className="text-lg font-bold text-amp-dark mb-2">{cert.name}</h3>
+                    <h3 className="text-sm font-bold text-slate-900 mb-1 font-sans">{cert.name}</h3>
                   </div>
-                  <p className="text-sm text-amp-slate font-medium mt-2">{cert.desc}</p>
+                  <p className="text-xs text-slate-650 font-medium mt-2 leading-relaxed">{cert.desc}</p>
                 </div>
               </FadeIn>
             ))}
           </div>
-          <FadeIn delay={0.3}>
-            <div className="mt-12 text-center">
-              <div className="inline-flex items-center justify-center">
+          
+          <FadeIn delay={0.25}>
+            <div className="mt-12 text-center bg-slate-50 p-6 rounded-2xl border border-slate-200 max-w-xs mx-auto">
+              <div className="flex items-center justify-center">
                 <img
                   src="/images/misc/certifiacate2.jpg"
-                  alt="Royal Certification Seal"
-                  className="h-24 w-auto opacity-95"
+                  alt="Quality Badge"
+                  className="h-16 w-auto opacity-95 bg-white rounded-lg p-1 border border-slate-100"
                   loading="lazy"
                 />
               </div>

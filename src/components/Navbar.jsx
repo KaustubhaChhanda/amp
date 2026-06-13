@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, ChevronRight } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '../lib/utils';
 
 const navLinks = [
@@ -13,7 +13,16 @@ const navLinks = [
 
 export default function Navbar() {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   useEffect(() => {
     if (isMobileOpen) {
@@ -25,20 +34,31 @@ export default function Navbar() {
   }, [isMobileOpen]);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 border-t-2 border-t-amp-accent-lime bg-white shadow-sm border-b border-slate-100">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <header 
+      className={cn(
+        "fixed left-1/2 -translate-x-1/2 z-50 w-[calc(100%-2rem)] max-w-7xl rounded-2xl glass-dock transition-all duration-300 shadow-lg",
+        scrolled 
+          ? "top-3 py-1.5 px-4 md:px-6 bg-white/90 border-slate-200 shadow-slate-200/50" 
+          : "top-5 py-2.5 px-6 bg-white/70 border-slate-100"
+      )}
+      id="main-navbar"
+    >
+      <div className="mx-auto">
         <div className="flex items-center justify-between h-13 md:h-15">
-          {/* Logo */}
-          <Link to="/" className="flex-shrink-0 flex items-center hover:opacity-90 transition-opacity" id="nav-logo">
-            <img
-              src="/images/logo/logo.png"
-              alt="Anand Motor Products Logo"
-              className="h-9 md:h-11.5 w-auto object-contain"
-            />
+          
+          {/* Badged Logo Area for perfect visibility */}
+          <Link to="/" className="flex-shrink-0 flex items-center hover:scale-[1.01] transition-transform duration-300" id="nav-logo">
+            <div className="bg-white px-4 py-2 rounded-2xl border border-slate-200/50 shadow-md flex items-center">
+              <img
+                src="/images/logo/logo.png"
+                alt="Anand Motor Products Logo"
+                className="h-7.5 md:h-9.5 w-auto object-contain"
+              />
+            </div>
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center gap-1" id="desktop-nav">
+          <nav className="hidden lg:flex items-center gap-1.5 relative z-10" id="desktop-nav">
             {navLinks.map((link) => {
               const isActive = location.pathname === link.path;
               return (
@@ -47,77 +67,81 @@ export default function Navbar() {
                   to={link.path}
                   id={`nav-${link.name.toLowerCase()}`}
                   className={cn(
-                    'px-4 py-2 text-sm font-medium tracking-wide uppercase transition-colors duration-200 relative pb-3 mt-1.5',
-                    isActive ? 'text-amp-primary font-bold' : 'text-slate-600 hover:text-amp-primary'
+                    'px-4 py-2 text-xs font-bold tracking-wider uppercase transition-colors duration-200 relative rounded-lg',
+                    isActive ? 'text-white' : 'text-slate-600 hover:text-slate-900'
                   )}
                 >
-                  {link.name}
+                  <span className="relative z-10">{link.name}</span>
                   {isActive && (
                     <motion.div
                       layoutId="activeNavTab"
-                      className="absolute bottom-0 left-4 right-4 h-0.75 bg-amp-primary"
-                      transition={{ type: 'spring', stiffness: 350, damping: 25 }}
+                      className="absolute inset-0 bg-amp-primary rounded-lg -z-0"
+                      transition={{ type: 'spring', stiffness: 350, damping: 28 }}
                     />
                   )}
                 </Link>
               );
             })}
+            
             <Link
               to="/contact"
               id="nav-cta-quote"
-              className="ml-4 px-6 py-2 bg-amp-accent-lime hover:bg-amp-accent-lime-hover text-amp-dark font-bold text-xs uppercase tracking-wider rounded-full shadow-sm hover:shadow-md transition-all duration-200 flex items-center gap-1.5 group"
+              className="ml-4 px-4.5 py-2 bg-slate-900 text-white font-extrabold text-xs uppercase tracking-widest rounded-lg shadow-sm flex items-center gap-1 cursor-pointer btn-hover"
             >
               Request a Quote
-              <ChevronRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
+              <ChevronRight size={11} className="text-white" />
             </Link>
           </nav>
 
           {/* Mobile Toggle */}
           <button
             onClick={() => setIsMobileOpen(!isMobileOpen)}
-            className="lg:hidden p-2 text-amp-dark hover:text-amp-primary transition-colors"
+            className="lg:hidden p-2 text-slate-600 hover:text-slate-900 transition-colors"
             aria-label="Toggle navigation menu"
             id="mobile-menu-toggle"
           >
-            {isMobileOpen ? <X size={24} /> : <Menu size={24} />}
+            {isMobileOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
       </div>
 
       {/* Mobile Menu */}
-      <div
-        className={cn(
-          'lg:hidden fixed inset-0 top-[52px] bg-white/98 backdrop-blur-md transition-all duration-300 border-t border-amp-border/20 shadow-xl',
-          isMobileOpen
-            ? 'opacity-100 pointer-events-auto'
-            : 'opacity-0 pointer-events-none'
-        )}
-      >
-        <nav className="flex flex-col p-6 gap-2" id="mobile-nav">
-          {navLinks.map((link) => (
-            <Link
-              key={link.path}
-              to={link.path}
-              onClick={() => setIsMobileOpen(false)}
-              className={cn(
-                'px-4 py-3 text-lg font-medium tracking-wide uppercase border-b border-amp-border/30 transition-colors',
-                location.pathname === link.path
-                  ? 'text-amp-primary font-bold'
-                  : 'text-slate-600 hover:text-amp-primary'
-              )}
-            >
-              {link.name}
-            </Link>
-          ))}
-          <Link
-            to="/contact"
-            onClick={() => setIsMobileOpen(false)}
-            className="mt-4 px-6 py-3 bg-amp-accent-lime hover:bg-amp-accent-lime-hover text-amp-dark text-center font-bold uppercase tracking-wider shadow-sm rounded-full transition-all"
+      <AnimatePresence>
+        {isMobileOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -10, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -10, scale: 0.95 }}
+            transition={{ type: 'spring', duration: 0.4, bounce: 0.2 }}
+            className="lg:hidden fixed inset-x-0 top-[76px] mx-4 bg-white/98 backdrop-blur-md border border-slate-250 shadow-2xl rounded-2xl p-4 overflow-hidden z-40"
           >
-            Request a Quote
-          </Link>
-        </nav>
-      </div>
+            <nav className="flex flex-col gap-1.5" id="mobile-nav">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.path}
+                  to={link.path}
+                  onClick={() => setIsMobileOpen(false)}
+                  className={cn(
+                    'px-4 py-2.5 text-xs font-bold tracking-wider uppercase border-b border-slate-100 last:border-0 transition-colors rounded-lg',
+                    location.pathname === link.path
+                      ? 'text-white bg-amp-primary font-bold'
+                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                  )}
+                >
+                  {link.name}
+                </Link>
+              ))}
+              <Link
+                to="/contact"
+                onClick={() => setIsMobileOpen(false)}
+                className="mt-3 px-5 py-3 bg-slate-900 text-white text-center font-extrabold text-xs uppercase tracking-widest shadow-sm rounded-xl btn-hover"
+              >
+                Request a Quote
+              </Link>
+            </nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }

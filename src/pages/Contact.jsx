@@ -10,9 +10,9 @@ function FadeIn({ children, delay = 0, className = '' }) {
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 40 }}
+      initial={{ opacity: 0, y: 20 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.6, delay }}
+      transition={{ duration: 0.5, delay }}
       className={className}
     >
       {children}
@@ -23,21 +23,21 @@ function FadeIn({ children, delay = 0, className = '' }) {
 const contactCards = [
   {
     icon: Phone,
-    title: 'Phone',
+    title: 'Phone Line',
     value: '+91 87429 55535',
     href: 'tel:+918742955535',
     desc: 'Mon-Sat, 9:30 AM - 6:30 PM IST',
   },
   {
     icon: Mail,
-    title: 'Email',
+    title: 'Email RFQ',
     value: 'marketing@amp-india.com',
     href: 'mailto:marketing@amp-india.com',
-    desc: 'We respond within 24 hours',
+    desc: 'B2B inquiries reviewed in 24 hours',
   },
   {
     icon: MapPin,
-    title: 'Location',
+    title: 'HQ Location',
     value: '38, Km Stone, NH-8, Khandsa Rd, Gurugram, Haryana 122004, India',
     href: 'https://maps.google.com/?q=Anand+Motor+Products+Pvt+Ltd+Gurugram',
     desc: 'Anand Motor Products Pvt. Ltd.',
@@ -66,45 +66,38 @@ export default function Contact() {
     }, 3000);
   };
 
-  const handleMouseMove = (e) => {
-    const { currentTarget, clientX, clientY } = e;
-    const rect = currentTarget.getBoundingClientRect();
-    const x = clientX - rect.left;
-    const y = clientY - rect.top;
-    currentTarget.style.setProperty('--mouse-x', `${x}px`);
-    currentTarget.style.setProperty('--mouse-y', `${y}px`);
-  };
-
   return (
     <>
       {/* Hero */}
       <section 
-        onMouseMove={handleMouseMove}
-        className="relative pt-32 pb-20 bg-mesh-dark spotlight-card border-b border-white/5" 
+        className="relative pt-32 pb-20 bg-white text-slate-900 bg-grid-minimal border-b border-slate-200/60" 
         id="contact-hero"
       >
-        <div className="absolute inset-0 bg-[url('/images/facility/7hbanner_banner2.jpg')] bg-cover bg-center opacity-15 pointer-events-none" />
+        <div className="absolute inset-0 bg-[url('/images/facility/7hbanner_banner2.jpg')] bg-cover bg-center opacity-5 pointer-events-none" />
+        
+        {/* Ambient Top Glow */}
+        <div className="absolute top-0 right-10 w-96 h-40 bg-slate-900/5 rounded-full blur-3xl pointer-events-none" />
+
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center z-10">
+          <span className="inline-block px-3 py-1 bg-slate-100 text-slate-500 text-xs font-bold tracking-widest uppercase rounded border border-slate-200 mb-4">
+            B2B Communication Desk
+          </span>
           <motion.h1
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-4xl md:text-5xl font-extrabold text-white"
+            transition={{ duration: 0.5 }}
+            className="text-4xl md:text-5xl font-extrabold text-slate-900 font-sans tracking-tight"
           >
-            Contact Us
+            Contact Sales Engineering
           </motion.h1>
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="mt-4 text-lg text-white/90 font-medium max-w-2xl mx-auto"
+            transition={{ duration: 0.5, delay: 0.15 }}
+            className="mt-4 text-base text-slate-650 font-medium max-w-xl mx-auto leading-relaxed"
           >
-            Ready to discuss your automotive component requirements? Our team is here to help.
+            Connect with our engineering office to discuss compound specifications and prototyping.
           </motion.p>
-          <div className="mt-6 flex items-center justify-center gap-1.5">
-            <div className="w-8 h-1 rounded-full bg-amp-accent-lime" />
-            <div className="w-2 h-1 rounded-full bg-white/40" />
-          </div>
         </div>
       </section>
 
@@ -113,20 +106,21 @@ export default function Contact() {
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {contactCards.map((card, i) => (
-              <FadeIn key={card.title} delay={i * 0.1} className="flex flex-col h-full">
+              <FadeIn key={card.title} delay={i * 0.08} className="flex flex-col h-full">
                 <a
                   href={card.href}
-                  target={card.title === 'Location' ? '_blank' : undefined}
-                  rel={card.title === 'Location' ? 'noopener noreferrer' : undefined}
-                  onMouseMove={handleMouseMove}
-                  className="flex flex-col justify-between flex-1 bg-white border border-slate-100 spotlight-card p-6 text-center shadow-md hover:shadow-lg hover:border-amp-primary/45 transition-all group rounded-3xl"
+                  target={card.title === 'HQ Location' ? '_blank' : undefined}
+                  rel={card.title === 'HQ Location' ? 'noopener noreferrer' : undefined}
+                  className="flex flex-col justify-between flex-1 satin-card border border-slate-200/80 p-6 text-center shadow-lg transition-all rounded-2xl group bg-white hover:border-slate-400"
                 >
                   <div>
-                    <card.icon size={28} className="mx-auto text-amp-primary mb-3 group-hover:scale-110 transition-transform animate-pulse" strokeWidth={1.5} />
-                    <h3 className="font-extrabold text-amp-dark text-xs uppercase tracking-wider mb-2">{card.title}</h3>
-                    <p className="text-sm text-amp-primary font-bold leading-snug">{card.value}</p>
+                    <div className="w-8 h-8 rounded bg-slate-100 text-slate-900 border border-slate-200 flex items-center justify-center mx-auto mb-4">
+                      <card.icon size={16} />
+                    </div>
+                    <h3 className="font-bold text-xs text-slate-500 uppercase tracking-widest mb-1.5 font-sans">{card.title}</h3>
+                    <p className="text-xs md:text-sm text-slate-900 font-extrabold leading-snug">{card.value}</p>
                   </div>
-                  <p className="text-xs text-amp-slate font-semibold mt-4">{card.desc}</p>
+                  <p className="text-xs text-slate-500 font-medium mt-4 border-t border-slate-100 pt-3">{card.desc}</p>
                 </a>
               </FadeIn>
             ))}
@@ -135,16 +129,17 @@ export default function Contact() {
       </section>
 
       {/* Contact Form + Map */}
-      <section className="py-16 bg-white" id="contact-form-section">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-16 bg-slate-50 bg-grid-minimal relative border-b border-slate-200/60" id="contact-form-section">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 items-stretch">
+            
             {/* Form */}
             <FadeIn className="lg:col-span-3 flex flex-col justify-between">
-              <div className="bg-slate-50/50 p-6 md:p-8 rounded-3xl border border-slate-100/80 shadow-sm flex-1 flex flex-col justify-center">
+              <div className="satin-card p-6 md:p-8 rounded-3xl border border-slate-200/80 bg-white flex-1 flex flex-col justify-center shadow-sm">
                 <SectionHeading
-                  title="Send Us a Message"
-                  subtitle="Fill out the form below and our team will get back to you as soon as possible."
-                  className="!text-left !mb-8 [&>div:last-child]:!mx-0"
+                  title="Submit B2B Inquiry"
+                  subtitle="Provide your specifications below and a sales engineer will review your blueprint requirements."
+                  className="!text-left !mb-6 [&>div:last-child]:!mx-0"
                 />
 
                 {submitted ? (
@@ -153,54 +148,55 @@ export default function Contact() {
                     animate={{ opacity: 1, scale: 1 }}
                     className="bg-green-50 border border-green-200 p-8 text-center rounded-2xl"
                   >
-                    <CheckCircle2 size={48} className="mx-auto text-green-600 mb-4" />
-                    <h3 className="text-lg font-bold text-green-800">Message Sent</h3>
-                    <p className="text-sm text-green-700 mt-2">
-                      Your email client will open with the inquiry details. Thank you for reaching out.
+                    <CheckCircle2 size={40} className="mx-auto text-green-600 mb-4" />
+                    <h3 className="text-base font-extrabold text-green-800 font-sans">Enquiry Transmitting</h3>
+                    <p className="text-xs text-green-700 mt-2">
+                      Your local mail client is opening with pre-filled RFQ parameters.
                     </p>
                   </motion.div>
                 ) : (
-                  <form onSubmit={handleSubmit(onSubmit)} className="space-y-5" id="contact-form">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                  <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" id="contact-form">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div>
-                        <label htmlFor="contact-name" className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                        <label htmlFor="contact-name" className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-1.5 font-sans">
                           Full Name *
                         </label>
                         <input
                           id="contact-name"
                           {...register('fullName', { required: 'Full name is required' })}
-                          className="w-full px-4 py-3 border border-slate-200 bg-slate-50 text-sm focus:outline-none focus:border-amp-primary focus:bg-white focus:ring-2 focus:ring-amp-primary/20 rounded-xl transition-all font-medium text-slate-800"
-                          placeholder="Your full name"
+                          className="w-full px-4 py-2.5 border border-slate-200 bg-slate-50 text-xs focus:outline-none focus:border-slate-450 focus:bg-white rounded-xl transition-all font-medium text-slate-800 placeholder-slate-400"
+                          placeholder="Your name"
                         />
                         {errors.fullName && <span className="text-xs text-amp-accent mt-1 block">{errors.fullName.message}</span>}
                       </div>
                       <div>
-                        <label htmlFor="contact-company" className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                        <label htmlFor="contact-company" className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-1.5 font-sans">
                           Company Name
                         </label>
                         <input
                           id="contact-company"
                           {...register('company')}
-                          className="w-full px-4 py-3 border border-slate-200 bg-slate-50 text-sm focus:outline-none focus:border-amp-primary focus:bg-white focus:ring-2 focus:ring-amp-primary/20 rounded-xl transition-all font-medium text-slate-800"
-                          placeholder="Your company"
+                          className="w-full px-4 py-2.5 border border-slate-200 bg-slate-50 text-xs focus:outline-none focus:border-slate-450 focus:bg-white rounded-xl transition-all font-medium text-slate-800 placeholder-slate-400"
+                          placeholder="OEM company"
                         />
                       </div>
                     </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div>
-                        <label htmlFor="contact-phone" className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                        <label htmlFor="contact-phone" className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-1.5 font-sans">
                           Phone Number *
                         </label>
                         <input
                           id="contact-phone"
                           {...register('phone', { required: 'Phone number is required' })}
-                          className="w-full px-4 py-3 border border-slate-200 bg-slate-50 text-sm focus:outline-none focus:border-amp-primary focus:bg-white focus:ring-2 focus:ring-amp-primary/20 rounded-xl transition-all font-medium text-slate-800"
-                          placeholder="+91 XXXXX XXXXX"
+                          className="w-full px-4 py-2.5 border border-slate-200 bg-slate-50 text-xs focus:outline-none focus:border-slate-450 focus:bg-white rounded-xl transition-all font-medium text-slate-800 placeholder-slate-400"
+                          placeholder="+XX XXXXX XXXXX"
                         />
                         {errors.phone && <span className="text-xs text-amp-accent mt-1 block">{errors.phone.message}</span>}
                       </div>
                       <div>
-                        <label htmlFor="contact-email" className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                        <label htmlFor="contact-email" className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-1.5 font-sans">
                           Email Address *
                         </label>
                         <input
@@ -210,52 +206,55 @@ export default function Contact() {
                             required: 'Email is required',
                             pattern: { value: /^\S+@\S+$/i, message: 'Enter a valid email' },
                           })}
-                          className="w-full px-4 py-3 border border-slate-200 bg-slate-50 text-sm focus:outline-none focus:border-amp-primary focus:bg-white focus:ring-2 focus:ring-amp-primary/20 rounded-xl transition-all font-medium text-slate-800"
-                          placeholder="your@email.com"
+                          className="w-full px-4 py-2.5 border border-slate-200 bg-slate-50 text-xs focus:outline-none focus:border-slate-450 focus:bg-white rounded-xl transition-all font-medium text-slate-800 placeholder-slate-400"
+                          placeholder="your@corporate.com"
                         />
                         {errors.email && <span className="text-xs text-amp-accent mt-1 block">{errors.email.message}</span>}
                       </div>
                     </div>
+                    
                     <div>
-                      <label htmlFor="contact-subject" className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                      <label htmlFor="contact-subject" className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-1.5 font-sans">
                         Subject *
                       </label>
                       <input
                         id="contact-subject"
                         {...register('subject', { required: 'Subject is required' })}
-                        className="w-full px-4 py-3 border border-slate-200 bg-slate-50 text-sm focus:outline-none focus:border-amp-primary focus:bg-white focus:ring-2 focus:ring-amp-primary/20 rounded-xl transition-all font-medium text-slate-800"
-                        placeholder="Product inquiry, partnership, etc."
+                        className="w-full px-4 py-2.5 border border-slate-200 bg-slate-50 text-xs focus:outline-none focus:border-slate-450 focus:bg-white rounded-xl transition-all font-medium text-slate-800 placeholder-slate-400"
+                        placeholder="RFQ inquiry, custom mold dimensions..."
                       />
                       {errors.subject && <span className="text-xs text-amp-accent mt-1 block">{errors.subject.message}</span>}
                     </div>
+                    
                     <div>
-                      <label htmlFor="contact-message" className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                      <label htmlFor="contact-message" className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-1.5 font-sans">
                         Message *
                       </label>
                       <textarea
                         id="contact-message"
-                        rows={5}
+                        rows={4}
                         {...register('message', { required: 'Message is required' })}
-                        className="w-full px-4 py-3 border border-slate-200 bg-slate-50 text-sm focus:outline-none focus:border-amp-primary focus:bg-white focus:ring-2 focus:ring-amp-primary/20 rounded-xl transition-all font-medium text-slate-800 resize-none"
-                        placeholder="Tell us about your requirements..."
+                        className="w-full px-4 py-2.5 border border-slate-200 bg-slate-50 text-xs focus:outline-none focus:border-slate-450 focus:bg-white rounded-xl transition-all font-medium text-slate-800 resize-none placeholder-slate-400"
+                        placeholder="Please include material type, volume requirements, or dynamic limits..."
                       />
                       {errors.message && <span className="text-xs text-amp-accent mt-1 block">{errors.message.message}</span>}
                     </div>
+                    
                     <button
                       type="submit"
                       disabled={isSubmitting}
                       id="contact-submit"
-                      className="px-8 py-3.5 bg-amp-accent-lime hover:bg-amp-accent-lime-hover text-amp-dark font-extrabold uppercase tracking-wider text-sm transition-all rounded-xl flex items-center justify-center gap-2 shadow-md hover:shadow-lg disabled:opacity-50 cursor-pointer w-full sm:w-auto"
+                      className="px-6 py-3 bg-slate-900 text-white font-extrabold uppercase tracking-widest text-xs rounded-lg flex items-center justify-center gap-1.5 shadow-md disabled:opacity-50 cursor-pointer w-full sm:w-auto font-sans btn-hover"
                     >
                       {isSubmitting ? (
                         <>
-                          <Loader2 size={18} className="animate-spin" />
-                          Sending...
+                          <Loader2 size={12} className="animate-spin" />
+                          Processing...
                         </>
                       ) : (
                         <>
-                          <Send size={16} />
-                          Send Message
+                          <Send size={12} className="text-slate-200" />
+                          Transmit RFQ
                         </>
                       )}
                     </button>
@@ -264,22 +263,23 @@ export default function Contact() {
               </div>
             </FadeIn>
 
-            {/* Map */}
+            {/* Map Bento Block */}
             <FadeIn delay={0.2} className="lg:col-span-2 flex flex-col">
-              <div className="flex-1 min-h-[450px] lg:min-h-full border border-slate-100 rounded-3xl overflow-hidden bg-amp-light shadow-sm">
+              <div className="flex-1 min-h-[450px] lg:min-h-full border border-slate-200/80 rounded-3xl overflow-hidden relative bg-white satin-card shadow-sm">
                 <iframe
                   src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d14035.021638610533!2d77.0009861!3d28.4266363!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d17fb1204ba69%3A0xc34b7dd41b22bb6!2sAnand%20Motor%20Products%20Pvt.%20Ltd.!5e0!3m2!1sen!2sin!4v1574168382616!5m2!1sen!2sin"
                   width="100%"
                   height="100%"
-                  style={{ border: 0, minHeight: '100%' }}
+                  style={{ border: 0, minHeight: '100%', filter: 'grayscale(0.65)' }}
                   allowFullScreen=""
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
-                  title="Anand Motor Products Location"
+                  title="Anand Motor Products Location Map"
                   id="google-map"
                 />
               </div>
             </FadeIn>
+            
           </div>
         </div>
       </section>

@@ -5,12 +5,10 @@ import { useInView } from 'react-intersection-observer';
 import {
   ShieldCheck,
   Factory,
-  ChevronRight,
   Star,
   ArrowUpRight,
   ArrowRight,
   Timer,
-  CheckCircle2,
 } from 'lucide-react';
 import SectionHeading from '../components/SectionHeading';
 
@@ -20,9 +18,9 @@ function FadeIn({ children, delay = 0, className = '' }) {
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 30 }}
+      initial={{ opacity: 0, y: 20 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.6, delay }}
+      transition={{ duration: 0.5, delay }}
       className={className}
     >
       {children}
@@ -33,31 +31,35 @@ function FadeIn({ children, delay = 0, className = '' }) {
 /* ── Data structures ── */
 const mainCategories = [
   {
-    name: 'Rubber-to-Metal Bonded',
+    label: 'Portfolio Series 01',
+    name: 'Rubber & Rubber-to-Metal',
     desc: 'High-durability engine mounts, suspension bushings, and torque rods built for optimal NVH isolation.',
     image: '/images/products/product1.png',
-    span: 'md:col-span-2 bg-white border border-slate-100 hover:shadow-xl hover:border-amp-primary/20',
+    span: 'md:col-span-2 satin-card text-slate-800',
     light: false
   },
   {
-    name: 'Microcellular PU (MCU)',
+    label: 'Portfolio Series 02',
+    name: 'Microcellular Polyurethane (MCU)',
     desc: 'Advanced progressive-energy jounce bumpers and isolators offering up to 40% better NVH damping.',
     image: '/images/products/product3.png',
-    span: 'md:col-span-2 bg-amp-dark-bg text-white hover:shadow-2xl hover:border-amp-accent-lime/20',
+    span: 'md:col-span-2 satin-card-dark text-white',
     light: true
   },
   {
-    name: 'Sheet Metal Stampings',
+    label: 'Portfolio Series 03',
+    name: 'Sheet Metal Stampings & Assemblies',
     desc: 'Precision brackets, spring seats, and custom automotive assemblies.',
     image: '/images/products/product2.png',
-    span: 'md:col-span-1 bg-white border border-slate-100 hover:shadow-xl hover:border-amp-primary/20',
+    span: 'md:col-span-1 satin-card text-slate-800',
     light: false
   },
   {
+    label: 'Portfolio Series 04',
     name: 'Engineering & Custom Tooling',
     desc: 'In-house tool design and rapid prototyping using CAD modeling and automated machinery.',
     image: '/images/facility/eng.jpg',
-    span: 'md:col-span-2 bg-white border border-slate-100 hover:shadow-xl hover:border-amp-primary/20',
+    span: 'md:col-span-2 satin-card text-slate-800',
     light: false
   }
 ];
@@ -70,7 +72,7 @@ const highDemandParts = [
     rating: 4.9,
     reviews: 142,
     vol: '200k+ Units/Yr',
-    desc: 'OEM quality strut mounts isolating suspension noise.'
+    spec: 'Hardness: 60±5 Shore A'
   },
   {
     name: 'Engine & Transmission Mounts',
@@ -79,16 +81,16 @@ const highDemandParts = [
     rating: 4.8,
     reviews: 98,
     vol: '150k+ Units/Yr',
-    desc: 'Heavy-duty mounts isolating powertrain vibration.'
+    spec: 'Dynamic Stiffness: Custom'
   },
   {
     name: 'Anti-Vibration Bushings',
-    category: 'Suspension',
+    category: 'Suspension Parts',
     image: '/images/products/BS1.jpg',
     rating: 4.9,
     reviews: 215,
     vol: '500k+ Units/Yr',
-    desc: 'Precision-fit suspension bushings built to last.'
+    spec: 'Compliance: High Fatigue Life'
   },
   {
     name: 'MCU Jounce Bumpers',
@@ -97,7 +99,7 @@ const highDemandParts = [
     rating: 5.0,
     reviews: 86,
     vol: '350k+ Units/Yr',
-    desc: 'High-performance dampers absorbing shock energy.'
+    spec: 'Elastomer Density: High'
   }
 ];
 
@@ -142,20 +144,19 @@ function AnimatedCounter({ value }) {
   const [count, setCount] = useState(0);
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 });
 
-  // Extract number and suffix (e.g. "60M+" -> number: 60, suffix: "M+")
   const match = String(value).match(/^(\d+)(.*)$/);
   const targetNumber = match ? parseInt(match[1], 10) : 0;
   const suffix = match ? match[2] : '';
 
   useEffect(() => {
     if (!inView || targetNumber === 0) return;
-    const duration = 1500; // 1.5 seconds
+    const duration = 1200;
     const startTime = performance.now();
 
     function updateCount(currentTime) {
       const elapsed = currentTime - startTime;
       const progress = Math.min(elapsed / duration, 1);
-      const easeProgress = 1 - Math.pow(1 - progress, 3); // Ease out cubic
+      const easeProgress = 1 - Math.pow(1 - progress, 3);
       setCount(Math.floor(easeProgress * targetNumber));
 
       if (progress < 1) {
@@ -176,142 +177,146 @@ function AnimatedCounter({ value }) {
 export default function Home() {
   const navigate = useNavigate();
 
-  const handleMouseMove = (e) => {
-    const { currentTarget, clientX, clientY } = e;
-    const rect = currentTarget.getBoundingClientRect();
-    const x = clientX - rect.left;
-    const y = clientY - rect.top;
-    currentTarget.style.setProperty('--mouse-x', `${x}px`);
-    currentTarget.style.setProperty('--mouse-y', `${y}px`);
-  };
-
   return (
-    <>
-      {/* ─── 1. HERO SECTION ─── */}
-      <section className="relative pt-24 pb-16 bg-slate-50 overflow-hidden" id="hero">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="bg-white text-slate-800">
+      
+      {/* ─── 1. HERO BENTO GRID SECTION (80% Light Base) ─── */}
+      <section className="relative pt-28 pb-16 bg-white bg-grid-minimal overflow-hidden" id="hero">
+        
+        {/* Soft, Fluid Studio Ambient Lighting (Subtle) */}
+        <div className="absolute top-[-10%] right-[-5%] w-[450px] h-[450px] glow-indigo rounded-full blur-[100px] pointer-events-none animate-ambient-glow" />
+        <div className="absolute bottom-[-10%] left-[-5%] w-[400px] h-[400px] glow-amber rounded-full blur-[90px] pointer-events-none animate-ambient-glow" />
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
             
-            {/* Left Main Card (60%) */}
+            {/* Left Large Bento Card: 20% Dark Structural Accent */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              onMouseMove={handleMouseMove}
-              className="lg:col-span-3 bg-mesh-dark spotlight-card text-white p-8 md:p-10 rounded-3xl relative overflow-hidden flex flex-col justify-between min-h-[500px] shadow-xl border border-white/5"
+              transition={{ duration: 0.5 }}
+              className="lg:col-span-3 satin-card-dark text-white p-8 md:p-10 rounded-3xl relative overflow-hidden flex flex-col justify-between min-h-[500px] shadow-lg border border-white/5"
             >
-              {/* Background visual overlay */}
-              <div className="absolute right-0 bottom-0 w-full md:w-2/3 h-2/3 opacity-30 md:opacity-45 pointer-events-none z-0">
-                <img
-                  src="/images/facility/9hbanner_banner5.jpg"
-                  alt="AMP Manufacturing Visual"
-                  className="w-full h-full object-cover rounded-tl-[100px]"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-amp-dark-bg via-transparent to-transparent" />
-                <div className="absolute inset-0 bg-gradient-to-r from-amp-dark-bg via-transparent to-transparent" />
+              {/* CAD Blueprint Vector Schematic Overlay */}
+              <div className="absolute right-6 bottom-6 w-52 h-52 opacity-15 pointer-events-none z-0 hidden md:block text-slate-400">
+                <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+                  <circle cx="100" cy="100" r="80" stroke="currentColor" strokeWidth="1" strokeDasharray="4 4" />
+                  <circle cx="100" cy="100" r="50" stroke="currentColor" strokeWidth="1.5" />
+                  <circle cx="100" cy="100" r="20" stroke="currentColor" strokeWidth="1" />
+                  <line x1="20" y1="100" x2="180" y2="100" stroke="currentColor" strokeWidth="0.75" strokeDasharray="2 2" />
+                  <line x1="100" y1="20" x2="100" y2="180" stroke="currentColor" strokeWidth="0.75" strokeDasharray="2 2" />
+                  <path d="M40 40 L60 40 L60 60" stroke="currentColor" strokeWidth="1" />
+                  <path d="M160 160 L140 160 L140 140" stroke="currentColor" strokeWidth="1" />
+                  <text x="110" y="35" fill="currentColor" className="text-[7.5px] font-mono tracking-wider">ALIGN_A: 90.0°</text>
+                  <text x="110" y="175" fill="currentColor" className="text-[7.5px] font-mono tracking-wider">REF_VAL: ELASTOMER</text>
+                </svg>
               </div>
 
               <div className="relative z-10">
-                <span className="inline-block px-3 py-1 bg-white/10 text-amp-accent-lime text-xs font-bold uppercase tracking-widest mb-6 rounded-full border border-white/10">
-                  Since 1978
-                </span>
-                <h1 className="text-4xl sm:text-5xl font-extrabold leading-tight max-w-xl">
-                  Reliable B2B <span className="text-amp-accent-lime">Parts</span> For OEM Success You Can <span className="text-amp-accent-lime">Trust</span>.
+                <div className="flex items-center gap-1.5 mb-5">
+                  <span className="px-3 py-1 bg-white/5 text-slate-350 text-xs font-bold tracking-widest uppercase rounded border border-white/5">
+                    Established 1949 — Tier-1 Certified
+                  </span>
+                </div>
+                <h1 className="text-3xl sm:text-5xl font-extrabold leading-tight max-w-xl tracking-tight text-white font-sans">
+                  Industrial Precision for Automotive OEMs.
                 </h1>
-                <p className="mt-4 text-white/70 max-w-md text-sm md:text-base leading-relaxed font-medium">
-                  Premium anti-vibration rubber-to-metal bonding and MCU products engineered to meet demanding Tier-1 automotive expectations.
+                <p className="mt-4 text-slate-300 max-w-md text-xs md:text-sm leading-relaxed font-semibold">
+                  High-durability engine mounts, suspension bushings, and custom MCU assemblies engineered to isolate powertrain vibration.
                 </p>
-                <div className="mt-6">
+                
+                <div className="mt-6 flex flex-wrap items-center gap-3">
                   <Link
                     to="/contact"
-                    className="inline-flex items-center gap-2 px-6 py-3 bg-amp-accent-lime hover:bg-amp-accent-lime-hover text-amp-dark font-bold rounded-full text-sm uppercase tracking-wider transition-all shadow-md shadow-lime-900/10 hover:shadow-lg"
+                    className="inline-flex items-center gap-1.5 px-6 py-2.5 bg-white text-slate-900 font-extrabold rounded-lg text-xs uppercase tracking-wider shadow-md cursor-pointer btn-hover"
                   >
-                    Request a Quote
-                    <ArrowRight size={16} />
+                    Request Quote
+                    <ArrowRight size={13} className="text-slate-900" />
+                  </Link>
+                  <Link
+                    to="/products"
+                    className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-white/10 text-white font-extrabold rounded-lg text-xs uppercase tracking-wider cursor-pointer border border-white/10 btn-hover"
+                  >
+                    View Catalog
                   </Link>
                 </div>
               </div>
 
-              {/* B2B Capabilities Quick Panel */}
-              <div className="relative z-10 mt-12 grid grid-cols-1 sm:grid-cols-3 gap-4 bg-white/5 backdrop-blur-md p-5 rounded-2xl border border-white/10">
-                <div className="flex flex-col gap-1.5">
-                  <div className="w-7 h-7 rounded-full bg-amp-accent-lime/10 text-amp-accent-lime flex items-center justify-center font-bold text-xs">
-                    1
-                  </div>
-                  <h4 className="text-xs font-bold text-amp-accent-lime uppercase tracking-wider">TPS Lean Molding</h4>
-                  <p className="text-[11px] text-white/70 leading-relaxed font-medium">Toyota production systems securing maximum B2B efficiency and low lead times.</p>
+              {/* B2B Capabilities Minimal Row */}
+              <div className="relative z-10 mt-10 grid grid-cols-1 sm:grid-cols-3 gap-4 bg-slate-950/40 p-4 rounded-xl border border-white/5">
+                <div>
+                  <h4 className="text-xs font-bold text-slate-300 uppercase tracking-wider">TPS Lean Molding</h4>
+                  <p className="text-xs text-slate-400 leading-normal mt-0.5 font-semibold">Toyota production workflows securing low waste and rapid delivery.</p>
                 </div>
-                <div className="flex flex-col gap-1.5 border-t sm:border-t-0 sm:border-l border-white/10 pt-3 sm:pt-0 sm:pl-4">
-                  <div className="w-7 h-7 rounded-full bg-amp-accent-lime/10 text-amp-accent-lime flex items-center justify-center font-bold text-xs">
-                    2
-                  </div>
-                  <h4 className="text-xs font-bold text-amp-accent-lime uppercase tracking-wider">14-Day Tooling</h4>
-                  <p className="text-[11px] text-white/70 leading-relaxed font-medium">Rapid 3D CAD modeling & fully automated CNC toolmaking for quick production.</p>
+                <div className="border-t sm:border-t-0 sm:border-l border-white/10 pt-3 sm:pt-0 sm:pl-4">
+                  <h4 className="text-xs font-bold text-slate-300 uppercase tracking-wider">14-Day Tooling</h4>
+                  <p className="text-xs text-slate-400 leading-normal mt-0.5 font-semibold">Rapid CAD modeling & CNC toolmaking for tooling speed.</p>
                 </div>
-                <div className="flex flex-col gap-1.5 border-t sm:border-t-0 sm:border-l border-white/10 pt-3 sm:pt-0 sm:pl-4">
-                  <div className="w-7 h-7 rounded-full bg-amp-accent-lime/10 text-amp-accent-lime flex items-center justify-center font-bold text-xs">
-                    3
-                  </div>
-                  <h4 className="text-xs font-bold text-amp-accent-lime uppercase tracking-wider">OEM Certified</h4>
-                  <p className="text-[11px] text-white/70 leading-relaxed font-medium">Strict laboratory testing procedures certified to international IATF 16949 standards.</p>
+                <div className="border-t sm:border-t-0 sm:border-l border-white/10 pt-3 sm:pt-0 sm:pl-4">
+                  <h4 className="text-xs font-bold text-slate-300 uppercase tracking-wider">IATF Compliance</h4>
+                  <p className="text-xs text-slate-400 leading-normal mt-0.5 font-semibold">Rigorous elastomer testing matching international standards.</p>
                 </div>
               </div>
             </motion.div>
 
-            {/* Right Stack (2 Cards - 40%) */}
+            {/* Right Stack: White/Light cards for contrast */}
             <div className="lg:col-span-2 flex flex-col gap-6">
-              {/* Top Card - MCU Damping */}
+              
+              {/* Top Card: Premium Light MCU Bento */}
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.15 }}
-                onMouseMove={handleMouseMove}
-                className="bg-mesh-dark spotlight-card text-white p-8 rounded-3xl relative overflow-hidden flex flex-col justify-between flex-1 shadow-lg border border-white/5"
+                transition={{ duration: 0.5, delay: 0.1 }}
+                className="satin-card p-7 rounded-3xl relative overflow-hidden flex flex-col justify-between flex-1 border border-slate-200/80 shadow-md bg-white"
               >
-                <div className="absolute right-0 top-0 w-36 h-36 opacity-30 pointer-events-none">
-                  <img
-                    src="/images/products/product3.png"
-                    alt="MCU Jounce Bumpers"
-                    className="w-full h-full object-contain"
-                  />
+                {/* Strain Curve Overlay Vector Graphic */}
+                <div className="absolute right-4 bottom-4 w-28 h-28 opacity-15 pointer-events-none z-0 text-slate-800">
+                  <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+                    <path d="M10 90 L20 88 C 45 85, 60 70, 75 40 T 90 10" stroke="currentColor" strokeWidth="1.5" />
+                    <line x1="10" y1="10" x2="10" y2="90" stroke="currentColor" strokeWidth="0.75" />
+                    <line x1="10" y1="90" x2="90" y2="90" stroke="currentColor" strokeWidth="0.75" />
+                    <circle cx="75" cy="40" r="3" fill="currentColor" />
+                    <text x="35" y="80" fill="currentColor" className="text-[5.5px] font-mono font-bold">STRESS / STRAIN</text>
+                  </svg>
                 </div>
-                <div className="relative z-10">
-                  <span className="inline-block text-[10px] font-bold uppercase tracking-widest bg-amp-accent-lime text-amp-dark px-2 py-0.5 rounded mb-3 animate-pulse">
-                    30% Big Offer
+                <div>
+                  <span className="inline-block text-xs font-bold uppercase tracking-widest text-slate-800 bg-slate-100 border border-slate-200 px-2.5 py-0.5 rounded-full mb-3">
+                    MCU Components
                   </span>
-                  <h3 className="text-2xl font-extrabold text-white">Modern Auto Damping</h3>
-                  <p className="text-white/70 text-xs font-medium mt-2 max-w-xs leading-relaxed">
-                    Advanced Microcellular Polyurethane (MCU) isolators offering up to 40% better NVH dampening.
+                  <h3 className="text-xl font-extrabold text-slate-900 font-sans">Microcellular Polyurethane</h3>
+                  <p className="text-slate-600 text-xs font-semibold mt-1 max-w-xs leading-relaxed">
+                    Advanced MCU shock bumpers engineered for progressive energy absorption and high fatigue life.
                   </p>
                 </div>
-                <div className="mt-6 relative z-10">
+                <div className="mt-5">
                   <Link
                     to="/products?category=Microcellular%20Polyurethane%20(MCU)"
-                    className="px-4 py-2.5 bg-white/10 hover:bg-white/20 text-white border border-white/10 text-xs font-semibold rounded-lg transition-all inline-block uppercase tracking-wider"
+                    className="inline-flex items-center gap-1 text-xs font-bold text-slate-900 hover:text-slate-600 transition-colors uppercase tracking-widest"
                   >
-                    View Products
+                    View Products <ArrowRight size={11} />
                   </Link>
                 </div>
               </motion.div>
 
-              {/* Bottom Card - Quality Standard */}
+              {/* Bottom Card: Premium Light Quality Schematic Block */}
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.3 }}
-                className="bg-white p-8 rounded-3xl flex flex-col justify-between border border-slate-100 shadow-md flex-1"
+                transition={{ duration: 0.5, delay: 0.15 }}
+                className="satin-card p-7 rounded-3xl flex flex-col justify-between shadow-md border border-slate-200/80 flex-1 relative bg-white"
               >
                 <div>
-                  <div className="w-10 h-10 rounded-full bg-slate-50 text-amp-primary flex items-center justify-center mb-4">
-                    <ShieldCheck size={20} />
+                  <div className="w-8 h-8 rounded bg-slate-100 text-slate-900 border border-slate-200 flex items-center justify-center mb-3">
+                    <ShieldCheck size={16} />
                   </div>
-                  <h3 className="text-lg font-bold text-amp-dark">OEM Quality Guarantee</h3>
-                  <p className="text-slate-600 text-xs font-medium leading-relaxed mt-2">
-                    Every part we manufacture meets or exceeds rigorous global B2B automotive specifications. Certified to IATF 16949:2016 standards.
+                  <h3 className="text-base font-extrabold text-slate-900 font-sans">OEM Standard Guarantee</h3>
+                  <p className="text-slate-600 text-xs font-semibold leading-relaxed mt-1">
+                    Every batch undergoes dynamic stiffness calibration and elastomer testing to meet global B2B expectations.
                   </p>
                 </div>
-                <div className="mt-4 flex items-center gap-1.5 text-xs text-amp-primary font-semibold uppercase tracking-wider">
-                  <CheckCircle2 size={14} className="text-amp-accent-lime" /> Certified Supplier
+                <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500 tracking-wider uppercase font-semibold">
+                  <span className="flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-slate-900"></span>Tier-1 Quality</span>
+                  <span>LAB APPROVED</span>
                 </div>
               </motion.div>
             </div>
@@ -320,127 +325,132 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ─── 2. SHOP BY CATEGORY ─── */}
-      <section className="py-20 bg-white" id="categories-grid">
+      {/* ─── 2. SHOP BY CATEGORY (Light Mode Grid) ─── */}
+      <section className="py-20 bg-slate-50 bg-grid-minimal border-y border-slate-200/60" id="categories-grid">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeading
-            title="Shop by Category"
-            subtitle="Explore our organized product portfolios engineered for durability and precision isolation."
+            title="Material Categories"
+            subtitle="Engineered vibration control mountings classified by compound and vehicle integration."
           />
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mt-10">
-            {mainCategories.map((cat, i) => (
-              <FadeIn
-                key={cat.name}
-                delay={i * 0.1}
-                className={`rounded-3xl p-6 md:p-8 flex flex-col justify-between transition-all duration-300 min-h-[300px] ${cat.span}`}
-              >
-                <div>
-                  <span className={`text-[10px] font-bold uppercase tracking-widest mb-3 inline-block px-2 py-0.5 rounded ${
-                    cat.light ? 'bg-amp-accent-lime text-amp-dark' : 'bg-slate-100 text-slate-600'
-                  }`}>
-                    Portfolio
-                  </span>
-                  <h3 className="text-xl font-bold leading-snug mt-1">{cat.name}</h3>
-                  <p className={`text-xs mt-2 leading-relaxed font-medium max-w-sm ${cat.light ? 'text-white/70' : 'text-slate-500'}`}>
-                    {cat.desc}
-                  </p>
-                </div>
-                
-                <div className="flex items-center justify-between mt-8">
-                  <Link
-                    to={`/products?category=${encodeURIComponent(cat.name)}`}
-                    className={`inline-flex items-center gap-1 text-xs font-bold uppercase tracking-wider ${
-                      cat.light ? 'text-amp-accent-lime hover:text-white' : 'text-amp-primary hover:text-amp-secondary'
-                    }`}
-                  >
-                    View Details
-                    <ArrowRight size={14} />
-                  </Link>
-                  <div className="w-24 h-16 flex items-center justify-center opacity-85">
-                    <img
-                      src={cat.image}
-                      alt={cat.name}
-                      className="max-h-full max-w-full object-contain"
-                    />
+            {mainCategories.map((cat, i) => {
+              const isDarkCard = cat.span.includes('satin-card-dark');
+              return (
+                <FadeIn
+                  key={cat.name}
+                  delay={i * 0.08}
+                  className={`rounded-3xl p-6 md:p-8 flex flex-col justify-between transition-all duration-300 min-h-[300px] ${cat.span}`}
+                >
+                  <div>
+                    <div className="flex items-center justify-between">
+                      <span className={`text-xs font-bold uppercase tracking-wider ${isDarkCard ? 'text-slate-400' : 'text-slate-500'}`}>
+                        {cat.label}
+                      </span>
+                    </div>
+                    <h3 className={`text-lg font-bold leading-snug mt-4 font-sans ${isDarkCard ? 'text-white' : 'text-slate-900'}`}>{cat.name}</h3>
+                    <p className={`text-xs mt-2 leading-relaxed font-semibold max-w-sm ${isDarkCard ? 'text-slate-355' : 'text-slate-600'}`}>
+                      {cat.desc}
+                    </p>
                   </div>
-                </div>
-              </FadeIn>
-            ))}
+                  
+                  <div className={`flex items-center justify-between mt-6 pt-4 border-t ${isDarkCard ? 'border-white/5' : 'border-slate-100'}`}>
+                    <Link
+                      to={`/products?category=${encodeURIComponent(cat.name)}`}
+                      className={`inline-flex items-center gap-1 text-xs font-bold uppercase tracking-wider ${
+                        isDarkCard ? 'text-white hover:text-slate-200' : 'text-slate-900 hover:text-slate-600'
+                      }`}
+                    >
+                      View Products
+                      <ArrowRight size={11} />
+                    </Link>
+                    <div className="w-16 h-12 flex items-center justify-center opacity-85">
+                      <img
+                        src={cat.image}
+                        alt={cat.name}
+                        className="max-h-full max-w-full object-contain"
+                      />
+                    </div>
+                  </div>
+                </FadeIn>
+              );
+            })}
 
-            {/* Neon Accent View All Card */}
+            {/* View All Bento Card */}
             <FadeIn
-              delay={0.4}
-              className="bg-amp-accent-lime text-amp-dark rounded-3xl p-8 flex flex-col justify-between min-h-[300px] hover:bg-amp-accent-lime-hover transition-colors shadow-lg cursor-pointer"
+              delay={0.35}
+              className="satin-card border border-slate-200/80 text-slate-900 rounded-3xl p-7 flex flex-col justify-between min-h-[300px] hover:bg-slate-50 transition-colors cursor-pointer relative overflow-hidden"
+              onClick={() => navigate('/products')}
             >
-              <div onClick={() => navigate('/products')}>
-                <div className="w-12 h-12 rounded-full bg-amp-dark-bg text-amp-accent-lime flex items-center justify-center mb-6 shadow">
-                  <ArrowUpRight size={24} />
+              <div>
+                <div className="w-8 h-8 rounded bg-slate-100 text-slate-900 border border-slate-200 flex items-center justify-center mb-6">
+                  <ArrowUpRight size={16} />
                 </div>
-                <h3 className="text-2xl font-extrabold tracking-tight max-w-[150px] leading-tight">
-                  View All Products
+                <h3 className="text-lg font-bold tracking-tight max-w-[150px] leading-tight font-sans text-slate-900">
+                  Browse Component Catalog
                 </h3>
+                <p className="text-slate-605 text-sm mt-1 font-semibold leading-normal">
+                  Access complete dynamic specifications.
+                </p>
               </div>
-              <span className="text-xs font-bold uppercase tracking-wider flex items-center gap-1.5" onClick={() => navigate('/products')}>
-                Explore Range <ArrowRight size={14} />
+              <span className="text-xs font-bold uppercase tracking-wider flex items-center gap-1 text-slate-900">
+                Explore Range <ArrowRight size={11} />
               </span>
             </FadeIn>
           </div>
         </div>
       </section>
 
-      {/* ─── 3. HIGH-DEMAND PARTS ─── */}
-      <section className="py-20 bg-slate-50" id="high-demand">
+      {/* ─── 3. HIGH-DEMAND PARTS (Light Spec Sheets) ─── */}
+      <section className="py-20 bg-white relative" id="high-demand">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-10">
             <SectionHeading
-              title="High-Demand Parts"
-              subtitle="Frequently ordered components specified by global Tier-1 automotive buyers."
+              title="Frequently Specified Parts"
+              subtitle="OEM components deployed inside light commercial platforms and passenger models."
               className="!text-left !mb-0 [&>div:last-child]:!mx-0"
             />
-            <div className="flex gap-2 mt-4 md:mt-0">
-              <button className="w-10 h-10 rounded-full border border-slate-200 bg-white hover:bg-slate-100 flex items-center justify-center text-slate-600 transition-colors shadow-sm" aria-label="Previous">
-                <ChevronRight size={18} className="rotate-180" />
-              </button>
-              <button className="w-10 h-10 rounded-full border border-slate-200 bg-white hover:bg-slate-100 flex items-center justify-center text-slate-600 transition-colors shadow-sm" aria-label="Next">
-                <ChevronRight size={18} />
-              </button>
-            </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {highDemandParts.map((part, i) => (
-              <FadeIn key={part.name} delay={i * 0.1} className="h-full">
-                <div className="h-full bg-white rounded-2xl border border-slate-100 p-5 flex flex-col justify-between shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+              <FadeIn key={part.name} delay={i * 0.08} className="h-full">
+                <div className="h-full satin-card border border-slate-200/50 rounded-2xl p-5 flex flex-col justify-between shadow-sm bg-white">
                   <div>
-                    <div className="aspect-square bg-slate-50 flex items-center justify-center p-6 rounded-xl overflow-hidden mb-4 border border-slate-100">
+                    {/* Image Box */}
+                    <div className="aspect-square bg-slate-50 flex items-center justify-center p-4 rounded-xl overflow-hidden mb-4 border border-slate-100 relative">
                       <img
                         src={part.image}
                         alt={part.name}
-                        className="max-h-full max-w-full object-contain hover:scale-105 transition-transform duration-300"
+                        className="max-h-full max-w-full object-contain hover:scale-102 transition-transform duration-300"
                       />
                     </div>
                     
-                    <span className="text-[10px] font-bold text-amp-primary bg-amp-primary/10 px-2 py-0.5 rounded uppercase tracking-wider">
+                    <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
                       {part.category}
                     </span>
-                    <h3 className="text-base font-bold text-amp-dark mt-2 leading-snug">{part.name}</h3>
+                    <h3 className="text-sm font-bold text-slate-900 mt-1.5 leading-snug font-sans">{part.name}</h3>
                     
-                    <div className="flex items-center gap-1 mt-1.5 text-xs text-amber-500">
-                      <Star size={12} fill="currentColor" />
+                    {/* Spec highlight */}
+                    <div className="mt-2 text-xs font-semibold text-slate-600 font-sans">
+                      {part.spec}
+                    </div>
+                    
+                    <div className="flex items-center gap-1 mt-2.5 text-xs text-amber-500">
+                      <Star size={11} fill="currentColor" />
                       <span className="font-semibold text-slate-800">{part.rating}</span>
-                      <span className="text-slate-400 font-medium">({part.reviews} OEM ratings)</span>
+                      <span className="text-slate-500 font-medium">({part.reviews} reviews)</span>
                     </div>
                   </div>
 
-                  <div className="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between">
+                  <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
                     <div>
-                      <div className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">Capacity</div>
-                      <div className="text-xs font-bold text-amp-dark">{part.vol}</div>
+                      <div className="text-xs text-slate-500 uppercase tracking-wider font-bold">Capacity</div>
+                      <div className="text-xs font-extrabold text-slate-900 font-sans">{part.vol}</div>
                     </div>
                     <Link
                       to="/contact"
-                      className="px-3.5 py-2 bg-amp-accent-lime hover:bg-amp-accent-lime-hover text-amp-dark font-bold text-xs rounded-lg transition-colors uppercase tracking-wider"
+                      className="px-3.5 py-1.5 bg-slate-900 text-white font-extrabold text-xs rounded-lg uppercase tracking-widest font-sans btn-hover"
                     >
                       Enquire
                     </Link>
@@ -452,81 +462,65 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ─── 4. CAPABILITIES STATS SECTION ("Deals of the Week" Style) ─── */}
-      <section className="py-20 bg-white" id="capabilities-deals">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div 
-            onMouseMove={handleMouseMove}
-            className="bg-mesh-dark spotlight-card text-white rounded-3xl p-8 md:p-12 relative overflow-hidden shadow-2xl border border-white/5"
-          >
-            {/* Visual background element */}
-            <div className="absolute right-0 top-0 w-1/3 h-full opacity-10 pointer-events-none z-0">
-              <div className="w-full h-full bg-[radial-gradient(circle_at_center,var(--color-amp-accent-lime)_0,transparent_70%)]" />
-            </div>
-
-            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-5 gap-12 items-center">
+      {/* ─── 4. CAPABILITIES STATS SECTION (20% Dark HUD Accent Card) ─── */}
+      <section className="py-20 bg-slate-50 relative overflow-hidden border-t border-slate-200/60" id="capabilities-deals">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="satin-card bg-white border border-slate-200/80 rounded-3xl p-8 md:p-12 shadow-md bg-grid-minimal relative overflow-hidden">
+            
+            <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 items-center">
               {/* Left Column Info */}
               <div className="lg:col-span-2">
-                <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest bg-amp-accent-lime text-amp-dark px-3 py-1 rounded-full mb-4">
-                  <Timer size={14} /> Production Efficiency
+                <span className="inline-flex items-center gap-1 text-xs font-bold uppercase tracking-widest bg-slate-100 text-slate-800 border border-slate-200 px-3 py-1 rounded mb-4">
+                  <Timer size={11} /> MANUFACTURING OPERATIONS
                 </span>
-                <h2 className="text-3xl md:text-4xl font-extrabold leading-tight">
-                  State-of-the-Art Operations
+                <h2 className="text-2xl md:text-3xl font-extrabold leading-tight font-sans text-slate-900">
+                  Global Shipping & Delivery Standard
                 </h2>
-                <p className="text-white/70 text-sm leading-relaxed mt-4 font-medium max-w-sm">
-                  We adopt the rigorous **Toyota Production System (TPS)** to eliminate waste and secure a 100% on-time shipping record globally.
+                <p className="text-slate-650 text-xs md:text-sm leading-relaxed mt-4 font-semibold">
+                  We incorporate the Toyota Production System (TPS) guidelines across our automated presses to eliminate rubber wastage and secure on-time shipments.
                 </p>
-                
-                {/* Visual indicator bullets */}
-                <div className="mt-8 flex items-center gap-4">
-                  <div className="flex gap-1.5">
-                    <span className="w-2.5 h-2.5 rounded-full bg-amp-accent-lime" />
-                    <span className="w-2.5 h-2.5 rounded-full bg-white/25" />
-                    <span className="w-2.5 h-2.5 rounded-full bg-white/25" />
-                  </div>
-                  <span className="text-xs text-white/50 uppercase tracking-widest font-semibold">Continuous Improvement</span>
-                </div>
               </div>
 
               {/* Right Column Grid of Stats */}
-              <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {capabilitiesStats.map((stat) => (
                   <div
                     key={stat.label}
-                    onMouseMove={handleMouseMove}
-                    className="p-6 bg-white/5 spotlight-card rounded-2xl border border-white/10 hover:border-amp-accent-lime/25 hover:bg-white/10 transition-all group"
+                    className="p-5 bg-slate-50 rounded-xl border border-slate-150 hover:border-slate-300 transition-all shadow-sm"
                   >
-                    <div className="text-3xl font-extrabold text-amp-accent-lime group-hover:scale-105 transition-transform inline-block">
+                    <span className="text-xs font-bold text-slate-500 block uppercase tracking-wider">Metrics</span>
+                    <div className="text-2xl font-extrabold text-slate-900 mt-1">
                       <AnimatedCounter value={stat.value} />
                     </div>
-                    <h4 className="text-sm font-bold mt-2 text-white">{stat.label}</h4>
-                    <p className="text-white/60 text-xs mt-1 leading-relaxed font-medium">
+                    <h4 className="text-xs font-bold mt-1.5 text-slate-900 font-sans">{stat.label}</h4>
+                    <p className="text-slate-600 text-xs mt-1 leading-normal font-semibold">
                       {stat.desc}
                     </p>
                   </div>
                 ))}
               </div>
             </div>
+
           </div>
         </div>
       </section>
 
-      {/* ─── 5. TRUSTED PARTNERS ─── */}
-      <section className="py-16 bg-slate-50" id="partners">
+      {/* ─── 5. TRUSTED PARTNERS (Clean Light logos grid) ─── */}
+      <section className="py-16 bg-white relative border-y border-slate-100" id="partners">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeading
-            title="Trusted By Industry Leaders"
-            subtitle="Proud Tier-1 supplier to major global OEMs and commercial platform leaders."
+            title="Tier-1 OEM Customers"
+            subtitle="AMP components are integrated into light passenger models and heavy commercial platforms worldwide."
           />
 
-          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-4 mt-10">
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3 mt-10">
             {clientLogos.map((logo, i) => (
-              <FadeIn key={i} delay={i * 0.02}>
-                <div className="bg-white border border-slate-100 p-4 flex items-center justify-center h-20 rounded-2xl shadow-sm hover:shadow-md hover:-translate-y-1 hover:border-amp-primary/20 transition-all duration-300 group cursor-pointer">
+              <FadeIn key={i} delay={i * 0.015}>
+                <div className="bg-slate-50 border border-slate-200 p-4 flex items-center justify-center h-20 rounded-2xl shadow-sm hover:border-slate-400 transition-all duration-300 group cursor-pointer">
                   <img
                     src={logo}
-                    alt={`Client logo ${i + 1}`}
-                    className="max-h-full max-w-full object-contain opacity-75 group-hover:opacity-100 transition-opacity"
+                    alt={`Client logo integration ${i + 1}`}
+                    className="max-h-full max-w-full object-contain opacity-55 group-hover:opacity-95 transition-opacity"
                     loading="lazy"
                   />
                 </div>
@@ -536,27 +530,23 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ─── 6. TOOLING EXCLUSIVE BANNER ─── */}
-      <section className="py-10 bg-white" id="tooling-banner">
+      {/* ─── 6. TOOLING EXCLUSIVE BANNER (Light Bento Card) ─── */}
+      <section className="py-10 bg-slate-50 relative" id="tooling-banner">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div 
-            onMouseMove={handleMouseMove}
-            className="bg-mesh-dark spotlight-card text-white rounded-3xl p-8 flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden shadow-xl border border-white/5"
-          >
-            {/* background graphics */}
-            <div className="absolute inset-0 bg-[url('/images/facility/eng.jpg')] bg-cover bg-center opacity-10 pointer-events-none" />
+          <div className="satin-card bg-white border border-slate-200/80 rounded-3xl p-8 flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden shadow-sm">
+            <div className="absolute inset-0 bg-[url('/images/facility/eng.jpg')] bg-cover bg-center opacity-5 pointer-events-none" />
             
             <div className="relative z-10 flex items-center gap-4">
-              <div className="w-12 h-12 rounded-full bg-amp-accent-lime text-amp-dark flex items-center justify-center shadow shrink-0">
-                <Factory size={22} />
+              <div className="w-10 h-10 rounded bg-slate-100 text-slate-900 border border-slate-200 flex items-center justify-center shrink-0">
+                <Factory size={18} />
               </div>
               <div>
-                <span className="text-[10px] font-bold text-amp-accent-lime uppercase tracking-widest">Tooling Innovation</span>
-                <h3 className="text-xl md:text-2xl font-extrabold mt-0.5">
-                  Blueprint to Finished Mold in 14 Days
+                <span className="text-xs text-slate-500 font-bold uppercase tracking-widest block font-sans">RAPID DEVELOPMENT LAB</span>
+                <h3 className="text-lg font-extrabold mt-0.5 font-sans text-slate-900">
+                  Concept CAD Blueprint to Finished Tool in 14 Days
                 </h3>
-                <p className="text-white/70 text-xs font-medium mt-1 leading-relaxed max-w-xl">
-                  Leverage our automated CNC machinery and advanced 3D tooling lab for rapid manufacturing deployment.
+                <p className="text-slate-605 text-xs font-semibold mt-1 max-w-xl">
+                  In-house tool design featuring fully automated CNC tooling operations and compound stiffness calibration.
                 </p>
               </div>
             </div>
@@ -564,7 +554,7 @@ export default function Home() {
             <div className="relative z-10 shrink-0">
               <Link
                 to="/contact"
-                className="px-6 py-3 bg-amp-accent-lime hover:bg-amp-accent-lime-hover text-amp-dark font-bold text-xs uppercase tracking-wider rounded-full transition-all shadow-md inline-block text-center"
+                className="px-5 py-2.5 bg-slate-900 text-white font-extrabold text-xs uppercase tracking-widest rounded-lg inline-block text-center cursor-pointer font-sans btn-hover"
               >
                 Inquire Now
               </Link>
@@ -574,28 +564,28 @@ export default function Home() {
       </section>
 
       {/* ─── 7. LATEST BLOG INSIGHTS ─── */}
-      <section className="py-20 bg-slate-50" id="insights">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-20 bg-white relative" id="insights">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">
             
             {/* Left Column Title */}
             <div className="lg:col-span-2">
-              <span className="inline-block px-3 py-1 bg-amp-primary/10 text-amp-primary text-xs font-semibold uppercase tracking-widest mb-4">
-                Latest Insights
+              <span className="inline-block px-3 py-1 bg-slate-100 text-slate-800 border border-slate-200 text-xs font-bold uppercase tracking-widest rounded mb-4">
+                ENGINEERING DIARY
               </span>
-              <h2 className="text-3xl md:text-4xl font-extrabold text-amp-dark leading-tight">
-                Engineering & R&D Blog Insights
+              <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 leading-tight font-sans">
+                Vibration Isolation R&D Logs
               </h2>
-              <p className="text-slate-600 text-sm font-medium leading-relaxed mt-4">
-                Explore technical articles, manufacturing updates, and case studies detailing our continuous vibration-damping innovations.
+              <p className="text-slate-600 text-xs md:text-sm font-semibold leading-relaxed mt-4">
+                Technical articles exploring fatigue limits, elastomer chemical compound reactions, and vehicle NVH compliance parameters.
               </p>
-              <div className="mt-8">
+              <div className="mt-6">
                 <Link
                   to="/about"
-                  className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-amp-primary hover:text-amp-secondary group"
+                  className="inline-flex items-center gap-1 text-xs font-bold uppercase tracking-wider text-slate-900 hover:text-slate-600 group"
                 >
-                  Learn More About Our Team 
-                  <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                  Corporate Profile 
+                  <ArrowRight size={11} className="group-hover:translate-x-0.5 transition-transform" />
                 </Link>
               </div>
             </div>
@@ -603,25 +593,25 @@ export default function Home() {
             {/* Right Column List */}
             <div className="lg:col-span-3 flex flex-col gap-4">
               {blogInsights.map((blog, i) => (
-                <FadeIn key={blog.title} delay={i * 0.1}>
-                  <div className="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-all flex items-center gap-5 group cursor-pointer">
-                    <div className="w-20 h-20 bg-slate-50 rounded-xl overflow-hidden flex items-center justify-center shrink-0 border border-slate-100 p-2">
+                <FadeIn key={blog.title} delay={i * 0.08}>
+                  <div className="satin-card bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm flex items-center gap-5 group cursor-pointer">
+                    <div className="w-16 h-16 bg-slate-50 rounded-xl overflow-hidden flex items-center justify-center shrink-0 border border-slate-100 p-2">
                       <img
                         src={blog.image}
                         alt={blog.title}
-                        className="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform duration-300"
+                        className="max-h-full max-w-full object-contain group-hover:scale-102 transition-transform duration-300"
                       />
                     </div>
                     <div className="flex-1">
-                      <div className="flex items-center gap-2 text-[10px] text-slate-400 font-bold uppercase tracking-wider">
+                      <div className="flex items-center gap-2 text-xs text-slate-500 font-bold uppercase tracking-wider">
                         <span>{blog.date}</span>
                         <span>•</span>
                         <span>{blog.readTime}</span>
                       </div>
-                      <h4 className="text-base font-bold text-amp-dark mt-1 leading-snug group-hover:text-amp-primary transition-colors">
+                      <h4 className="text-sm font-bold text-slate-900 mt-1 leading-snug group-hover:text-slate-600 transition-colors font-sans">
                         {blog.title}
                       </h4>
-                      <p className="text-slate-500 text-xs font-medium leading-relaxed mt-1 line-clamp-2">
+                      <p className="text-slate-600 text-xs font-semibold leading-relaxed mt-1 line-clamp-1">
                         {blog.desc}
                       </p>
                     </div>
@@ -633,6 +623,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-    </>
+    </div>
   );
 }
