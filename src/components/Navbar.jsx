@@ -47,8 +47,8 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-13 md:h-15">
           
           {/* Badged Logo Area for perfect visibility */}
-          <Link to="/" className="flex-shrink-0 flex items-center hover:scale-[1.01] transition-transform duration-300" id="nav-logo">
-            <div className="bg-white px-4 py-2 rounded-2xl border border-slate-200/50 shadow-md flex items-center">
+          <Link to="/" className="flex-shrink-0 flex items-center" id="nav-logo">
+            <div className="bg-white px-4 py-2 rounded-2xl border border-slate-200/50 shadow-md hover:shadow-lg flex items-center transition-shadow duration-300">
               <img
                 src="/images/logo/logo.png"
                 alt="Anand Motor Products Logo"

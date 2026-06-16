@@ -418,7 +418,7 @@ export default function Home() {
                 <div className="h-full satin-card border border-slate-200/50 rounded-2xl p-5 flex flex-col justify-between shadow-sm bg-white">
                   <div>
                     {/* Image Box */}
-                    <div className="aspect-square bg-slate-50 flex items-center justify-center p-4 rounded-xl overflow-hidden mb-4 border border-slate-100 relative">
+                    <div className="aspect-square bg-white flex items-center justify-center p-4 rounded-xl overflow-hidden mb-4 border border-slate-100 relative">
                       <img
                         src={part.image}
                         alt={part.name}
@@ -520,7 +520,7 @@ export default function Home() {
                   <img
                     src={logo}
                     alt={`Client logo integration ${i + 1}`}
-                    className="max-h-full max-w-full object-contain opacity-55 group-hover:opacity-95 transition-opacity"
+                    className="max-h-full max-w-full object-contain opacity-95 group-hover:opacity-40 transition-opacity"
                     loading="lazy"
                   />
                 </div>

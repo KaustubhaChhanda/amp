@@ -267,7 +267,7 @@ export default function Products() {
           </div>
 
           {/* Product Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             <AnimatePresence mode="wait">
               {filteredProducts.map((product, i) => (
                 <motion.div
@@ -276,11 +276,11 @@ export default function Products() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -15 }}
                   transition={{ duration: 0.3, delay: i * 0.04 }}
-                  className="group satin-card rounded-2xl border border-slate-200/80 p-5 flex flex-col justify-between relative overflow-hidden bg-white shadow-sm hover:shadow-md transition-all"
+                  className="group satin-card rounded-2xl border border-slate-200/80 p-4 flex flex-col justify-between relative overflow-hidden bg-white shadow-sm hover:shadow-md transition-all"
                 >
                   <div>
                     {/* CAD image holder */}
-                    <div className="aspect-square overflow-hidden bg-slate-50 flex items-center justify-center p-6 rounded-xl border border-slate-100 relative">
+                    <div className="aspect-square overflow-hidden bg-white flex items-center justify-center p-2 rounded-xl border border-slate-100 relative">
                       <img
                         src={product.image}
                         alt={product.name}
