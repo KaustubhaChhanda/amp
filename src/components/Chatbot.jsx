@@ -41,7 +41,13 @@ Response Guidelines:
 - Respond in a professional, technical, helpful, and concise manner.
 - Always guide buyers looking for catalog specifications or custom quotes to [/products](/products) or [/contact](/contact).
 - Provide the location or map links whenever asked about the head office, factory, or how to visit.
-- Format all lists and key details cleanly using bullet points.`;
+- Format all lists and key details cleanly using bullet points.
+
+STRICT GUARDRAILS (Out-of-Domain Policy):
+- You must ONLY answer questions that are directly related to Anand Motor Products (AMP), our automotive components, manufacturing services, and corporate/contact information.
+- If a query is unrelated to AMP (such as general knowledge, programming, history, weather, other industries, personal queries, general conversation, etc.), you MUST politely decline to answer.
+- Under no circumstances should you generate answers about topics not mentioned in this prompt. Use this reply for unrelated queries:
+  "I'm sorry, but as the AMP AI Assistant, I am only configured to answer queries regarding Anand Motor Products (AMP), our automotive manufacturing capabilities, products, and contact details. How can I help you with our B2B component manufacturing services today?"`;
 
 const SUGGESTIONS = [
   { text: '📍 Factory Location & Map', query: 'Where is your factory located and can I get a Google Maps link?' },
@@ -122,7 +128,7 @@ export default function Chatbot() {
         body: JSON.stringify({
           model: MODEL_NAME,
           messages: apiMessages,
-          temperature: 0.4,
+          temperature: 0.1,
           max_tokens: 750
         })
       });
